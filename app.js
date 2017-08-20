@@ -36,18 +36,18 @@ App({
 	},
 	rd_session: null,
 	login: function() {
-		var self = this;
-		wx.login({
-			success: function (res) {
-				console.log('wx.login', res)
-				server.getJSON('dwq/WxAppApi/setUserSessionKey.php', {code: res.code}, function (res) {
-					self.rd_session = res.data.rd_session;
-					self.globalData.hasLogin = true;
-					wx.setStorageSync('rd_session', self.rd_session);
-					self.getUserInfo();
-				});
-			}
-		});
+		// var self = this;
+		// wx.login({
+		// 	success: function (res) {
+		// 		console.log('wx.login', res)
+		// 		server.getJSON('dwq/WxAppApi/setUserSessionKey.php', {code: res.code}, function (res) {
+		// 			self.rd_session = res.data.rd_session;
+		// 			self.globalData.hasLogin = true;
+		// 			wx.setStorageSync('rd_session', self.rd_session);
+		// 			self.getUserInfo();
+		// 		});
+		// 	}
+		// });
 	},
 	getUserInfo: function() {
 		var self = this;

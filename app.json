@@ -24,7 +24,7 @@
 				"pagePath": "page/index/index",
 				"iconPath": "imgs/tabBar/home_2.png",
 				"selectedIconPath": "imgs/tabBar/home_1.png",
-				"text": "首页"
+				"text": "吃货联盟"
 			},
 			{
 				"pagePath": "page/mine/mine",
