@@ -52,8 +52,8 @@ Page({
         }
       ]
     ],
+    url: app.globalData.url,
     shops: app.globalData.shops,
-    url: "https://supeat.ca/",
     imagepath: [],
   },
   onLoad: function () {
@@ -103,7 +103,8 @@ Page({
         self.setData({
           shops: res.data
         });
-        console.log("------------成功-------------" + res.data[0].shopname + " : " + self.data.imagepath[0]);
+        app.globalData.shops = res.data;
+        console.log("------------成功-------------" + res.data[0].shopname + " : " + app.globalData.shops[0].shopname);
       } else {
         console.log("----------失败---------------" + res);
       }

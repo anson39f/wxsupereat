@@ -1,6 +1,6 @@
 <view class="container">
 	<view class="header {{scrollDown?'hidden':''}}">
-		<image class="logo" src="{{shop.logo}}"/>
+		<image class="logo" src="{{url + shop.shoplogo}}"/>
 		<view class="name ellipsis">{{shop.restaurant_name}}</view>
 		<view class="welcome ellipsis">公告：欢迎光临{{shop.restaurant_name}}！</view>
 		<view class="follow" bindtap="follow">{{followed?'已收藏':'收藏'}}</view>

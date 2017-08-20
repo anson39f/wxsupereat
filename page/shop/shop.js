@@ -6,6 +6,7 @@ Page({
 			count: 0,
 			total: 0
 		},
+    url: app.globalData.url,
 		cartList : [],
 		localList: [],
 		showCartDetail: false,
