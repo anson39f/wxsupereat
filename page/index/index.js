@@ -5,24 +5,24 @@ Page({
     filterId: 1,
     address: '广州天河大厦',
     banners: [
-      {
-        id: 3,
-        img: 'https://supeat.ca/apiv1/ADimage/9/1.jpg',
-        url: '',
-        name: '马队长'
-      },
-      {
-        id: 1,
-        img: 'https://supeat.ca/apiv1/ADimage/9/2.jpg',
-        url: '',
-        name: '告别午高峰'
-      },
-      {
-        id: 2,
-        img: 'https://supeat.ca/apiv1/ADimage/9/3.jpg',
-        url: '',
-        name: '金牌好店'
-      }
+      // {
+      //   id: 3,
+      //   img: 'https://supeat.ca/apiv1/ADimage/9/1.jpg',
+      //   url: '',
+      //   name: '马队长'
+      // },
+      // {
+      //   id: 1,
+      //   img: 'https://supeat.ca/apiv1/ADimage/9/2.jpg',
+      //   url: '',
+      //   name: '告别午高峰'
+      // },
+      // {
+      //   id: 2,
+      //   img: 'https://supeat.ca/apiv1/ADimage/9/3.jpg',
+      //   url: '',
+      //   name: '金牌好店'
+      // }
     ],
     icons: [
       [
@@ -53,7 +53,7 @@ Page({
       ]
     ],
     url: app.globalData.url,
-    shops: app.globalData.shops,
+    shops: [],
     imagepath: [],
   },
   onLoad: function () {
@@ -80,7 +80,41 @@ Page({
         });
       }
     });
+    server.postJSON('https://supereat.ca/api/store_list', {
+      city: 71,
+      location: 1035,
+      category_ids: "",
+      cuisine_ids: "",
+      language: "1",
+      sortby: "",
+      orderby: ""
+    }, function (res) {
+      console.log(res);
+      var response = res.data.response;
+      if (response.httpCode == 200) {
+        var arry = [];
+        var open = [];
+        var close = [];
+        open = response.open_store_list;
+        close = response.closed_store_list;
+        arry = arry.concat(open);
+        arry = arry.concat(close);
+        self.setData({
+          shops: arry
+        });
 
+        self.setData({
+          banners: response.banners
+        });
+        app.globalData.shops = arry;
+        console.log("------------成功-------------" + arry.length);
+      } else {
+        console.log("------------失败-------------");
+      }
+    })
+  },
+
+  getJson: function () {
     server.getJSON('https://supeat.ca/apiv1/getdata.php', {
       areaid: 9
     }, function (res) {
@@ -98,18 +132,15 @@ Page({
           }
         }
         self.setData({
-          imagepath: arry
+          // imagepath: arry
         });
         self.setData({
-          shops: res.data
+          // shops: res.data
         });
-        app.globalData.shops = res.data;
-        console.log("------------成功-------------" + res.data[0].shopname + " : " + app.globalData.shops[0].shopname);
+        // app.globalData.shops = res.data;
       } else {
-        console.log("----------失败---------------" + res);
       }
     });
-
   },
   time_range: function (sourceTime) {
     var args = sourceTime.split("-");
@@ -127,7 +158,7 @@ Page({
     var b = new Date();
     var e = new Date();
     var n = new Date();
-    n.setMinutes(n.getMinutes() + n.getTimezoneOffset() - 240);
+    n.setMinutes(n.getMinutes() + n.getTimezoneOffset() - 300);
     b.setHours(strb[0]);
     b.setMinutes(strb[1]);
     e.setHours(stre[0]);
@@ -190,7 +221,7 @@ Page({
     });
   },
   tapBanner: function (e) {
-    var name = this.data.banners[e.target.dataset.id].name;
+    var name = this.data.banners[e.target.dataset.id].banner_link;
     wx.showModal({
       title: '提示',
       content: '您点击了“' + name + '”活动链接，活动页面暂未完成！',

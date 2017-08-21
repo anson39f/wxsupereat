@@ -13,7 +13,7 @@
     <swiper class="banner" indicator-dots="true" autoplay="true" interval="3000" duration="500">
       <block wx:for="{{banners}}" wx:key="id">
         <swiper-item>
-          <image bindtap="tapBanner" data-id="{{index}}" src="{{item.img}}" />
+          <image bindtap="tapBanner" data-id="{{index}}" src="{{item.banner_image_url}}" />
         </swiper-item>
       </block>
     </swiper>
@@ -44,7 +44,7 @@
               <image class="image" src="{{url + item.shoplogo}}" style="height: 100%" />
             </view>
             <view class='shop-detail'>
-              <view class='shop-name'>{{item.shopname}}</view>
+              <view class='shop-name'>{{item.outlets_name}}</view>
               <view class='shop-data'>
                 <view class='start-price' wx:if="{{item.freedeeint != -1}}">${{item.freedeeint}}免配送费</view>
                 <view class='send-price'>配送费：${{item.deliveryfee}}起</view>

@@ -227,7 +227,7 @@ scroll-view {
 }
 
 .shop-detail {
-  width: 400rpx;
+  width: 480rpx;
   height: 100%;
   overflow: hidden;
   padding-left: 30rpx;
