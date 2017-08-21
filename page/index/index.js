@@ -127,7 +127,7 @@ Page({
     var b = new Date();
     var e = new Date();
     var n = new Date();
-    n.setMinutes(n.getMinutes() + n.getTimezoneOffset() - 300);
+    n.setMinutes(n.getMinutes() + n.getTimezoneOffset() - 240);
     b.setHours(strb[0]);
     b.setMinutes(strb[1]);
     e.setHours(stre[0]);
