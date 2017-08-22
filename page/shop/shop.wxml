@@ -1,10 +1,10 @@
 <view class="container">
   <view class="header {{scrollDown?'hidden':''}}">
-    <image class="logo" src="{{url + shop.shoplogo}}" />
+    <image class="logo" src="{{shop.featured_image}}" />
     <view class="classname">
-      <view class="name ellipsis">{{shop.shopname}}</view>
-      <view class="address ellipsis">地址：{{shop.address}}</view>
-      <view class="deliveryfee ellipsis">配送费:${{shop.deliveryfee}}起</view>
+      <view class="name ellipsis">{{shop.outlets_name}}</view>
+      <view class="address ellipsis" style="display:none">地址：{{shop.address}}</view>
+      <view class="deliveryfee ellipsis">配送费:${{shop.delivery_cost_fixed}}起</view>
     </view>
     <view class="welcome ellipsis">公告：{{shop.notice_info}}！</view>
     <view class="follow" bindtap="follow" style="display:none">{{followed?'已收藏':'收藏'}}</view>

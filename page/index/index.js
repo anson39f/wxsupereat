@@ -54,7 +54,8 @@ Page({
     ],
     url: app.globalData.url,
     shops: [],
-    imagepath: [],
+    //basefee =(order_amount >= minimum-free_amount) ? 0 : basefee;
+    // finalfee = basefee + (distance / basekmunit) * baserate;
   },
   onLoad: function () {
     var self = this;

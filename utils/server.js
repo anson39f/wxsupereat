@@ -68,7 +68,8 @@ function filterEmptyObject(list){
 function selectedShopDetail(shopId){
 	var app = getApp();
 	for (var i = 0; i < app.globalData.shops.length; ++i) {
-		if (app.globalData.shops[i].id == shopId) {
+    console.log("---globalData.shops----" + app.globalData.shops[i].outlets_id)
+    if (app.globalData.shops[i].outlets_id == shopId) {
       console.log("---globalData.shops----" + app.globalData.shops[i].shoplogo);
 			return app.globalData.shops[i]
 		}

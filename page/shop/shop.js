@@ -51,6 +51,76 @@ Page({
 			classifySeleted: 1
 		});
 	},
+  getShopDetail: function () {
+    server.postJSON('https://supereat.ca/api/store_product_mob', {
+      city:'',
+      outlet_id:'',
+      location: 1035,
+      language: "1",
+      user_id:'',
+      category_id:'',
+      user_id:'',
+      token:''
+    }, function (res) {
+      console.log(res);
+      var response = res.data.response;
+      if (response.httpCode == 200) {
+        var arry = [];
+        var open = [];
+        var close = [];
+        open = response.open_store_list;
+        close = response.closed_store_list;
+        arry = arry.concat(open);
+        arry = arry.concat(close);
+        self.setData({
+          shops: arry
+        });
+
+        self.setData({
+          banners: response.banners
+        });
+        app.globalData.shops = arry;
+        console.log("------------成功-------------" + arry.length);
+      } else {
+        console.log("------------失败-------------");
+      }
+    })
+  },
+
+  getShopMenu: function () {
+    server.postJSON('https://supereat.ca/api/store_product_mob', {
+      outlet_id: '',
+      location: 1035,
+      language: "1",
+      user_id: '',
+      category_id: '',
+      store_id: '',
+      product_name: ''
+    }, function (res) {
+        console.log(res);
+        var response = res.data.response;
+        if (response.httpCode == 200) {
+          var arry = [];
+          var open = [];
+          var close = [];
+          open = response.open_store_list;
+          close = response.closed_store_list;
+          arry = arry.concat(open);
+          arry = arry.concat(close);
+          self.setData({
+            shops: arry
+          });
+
+          self.setData({
+            banners: response.banners
+          });
+          app.globalData.shops = arry;
+          console.log("------------成功-------------" + arry.length);
+        } else {
+          console.log("------------失败-------------");
+        }
+      })
+  },
 	checkOrderSame: function(name){
 		var list = this.data.cartList[this.data.shopId];
 		for(var index in list){
