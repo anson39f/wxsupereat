@@ -2,33 +2,33 @@
   <view class="header {{scrollDown?'hidden':''}}">
     <image class="logo" src="{{shop.featured_image}}" />
     <view class="classname">
-      <view class="name ellipsis">{{shop.outlets_name}}</view>
-      <view class="address ellipsis" style="display:none">地址：{{shop.address}}</view>
+      <view class="name ellipsis">{{shop.outlet_name}}</view>
+      <view class="address ellipsis">电话：{{shop.contact_phone}}</view>
       <view class="deliveryfee ellipsis">配送费:${{shop.delivery_cost_fixed}}起</view>
     </view>
-    <view class="welcome ellipsis">公告：{{shop.notice_info}}！</view>
+    <view class="welcome ellipsis">地址:{{shop.contact_address}}  {{shop.city_name}}</view>
     <view class="follow" bindtap="follow" style="display:none">{{followed?'已收藏':'收藏'}}</view>
     <view class="line"></view>
   </view>
   <view class="content-container">
     <scroll-view class="classify-container" scroll-y="true">
-      <view class="classify {{classifySeleted==classify.id?'active':''}}" wx:for="{{shop.menu}}" wx:for-item="classify" wx:key="id" data-id="{{classify.id}}" bindtap="tapClassify">
-        <view class="name">{{classify.package}}</view>
+      <view class="classify {{classifySeleted==index?'active':''}}" wx:for="{{shop.category_list}}" wx:for-item="classify" wx:key="id" data-id="{{index}}" bindtap="tapClassify">
+        <view class="name">{{classify.category_name}}</view>
       </view>
     </scroll-view>
     <scroll-view class="goods-container" scroll-y="true" scroll-into-view="{{classifyViewed}}" bindscroll="onGoodsScroll">
-      <view wx:for="{{shop.menu}}" wx:for-item="classify" wx:key="id" id="{{classify.id}}">
-        <view class="title">{{classify.package}}</view>
-        <view class="goods" wx:for="{{classify.menu}}" wx:for-item="menu" wx:key="name">
-          <image class="pic" src="{{menu.img ? menu.img : defaultImg}}"></image>
-          <view class="name ellipsis">{{menu.name}}</view>
+      <!-- <view wx:for="{{shop.menu}}" wx:for-item="classify" wx:key="id" id="{{classify.id}}">
+        <view class="title">{{classify.package}}</view> -->
+        <view class="goods" wx:for="{{product}}" wx:for-item="menu" wx:key="name">
+          <image class="pic" src="{{menu.product_image ? menu.product_image : defaultImg}}"></image>
+          <view class="name ellipsis">{{menu.product_name}}</view>
           <view class="sold">月售{{menu.sales}}单</view>
-          <view class="price">￥{{menu.price}} <i class='like'></i>({{menu.like > 0 ? menu.like : 0}})</view>
-          <view class="addCart" bindtap="tapAddCart" data-price="{{menu.price}}" data-name="{{menu.name}}" data-pic="{{menu.img}}">
+          <view class="price">${{menu.discount_price}} <i class='like'></i>({{menu.like > 0 ? menu.like : 0}})</view>
+          <view class="addCart" bindtap="tapAddCart" data-price="{{menu.discount_price}}" data-name="{{menu.product_name}}" data-pic="{{menu.product_image}}">
             <image src="/imgs/shop/plus.png"></image>
           </view>
-        </view>
-      </view>
+         </view> 
+      <!-- </view> -->
     </scroll-view>
   </view>
   <view class="cart-detail" hidden="{{!showCartDetail||!cart.count}}">
