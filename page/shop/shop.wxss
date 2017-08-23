@@ -55,7 +55,7 @@ page {
   /* line-height: 70rpx; */
   margin: 10rpx;
   padding-top: 20rpx;
-  white-space:pre-line;
+  white-space: pre-line;
 }
 
 .header .follow {
@@ -149,11 +149,10 @@ page {
   color: #000;
   font-size: 36rpx;
   /* line-height: 46rpx; */
-
-  /* width: 100%; */
+  width: 400rpx;
   margin: 10rpx;
   /* padding-top: 20rpx; */
-  white-space:pre-line;
+  white-space: pre-line;
 }
 
 .goods-container .goods .sold {
@@ -178,14 +177,14 @@ page {
   border-radius: 50%;
 }
 
-.goods-container .goods .addCart image {
+/* .goods-container .goods .addCart image {
   pointer-events: none;
   position: absolute;
   left: 20rpx;
   top: 20rpx;
   width: 24rpx;
   height: 24rpx;
-}
+} */
 
 .cart-detail, .cart-detail .mask {
   position: absolute;
@@ -321,4 +320,76 @@ page {
 
 .right-content {
   float: right;
+}
+
+/* 改进  */
+
+/*菜品信息*/
+
+.dish-item {
+  width: 100%;
+  padding: 16rpx 0;
+}
+
+.dish-item-wrp {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.dish-item-info {
+  width: 300rpx;
+  padding-left: 16rpx;
+}
+
+.dish-item-name {
+  color: #000;
+  font-size: 36rpx;
+}
+
+.dish-item-money {
+  color: #f45044;
+  font-size: 36rpx;
+  line-height: 46rpx;
+}
+
+.dish-footer {
+  /*background: red;*/
+  height: 100rpx;
+}
+
+/*操作菜品数量*/
+
+.dish-item-count {
+  width: 220rpx;
+  display: flex;
+  font-size: 26rpx;
+  padding: 60rpx 0 0 10rpx;
+}
+
+.dish-item-tab {
+  width: 60rpx;
+  height: 60rpx;
+}
+
+.dish-item-count-minus {
+  width: 60rpx;
+  height: 60rpx;
+}
+
+.dish-item-count-text {
+  color: #ccc;
+  font-size: 28rpx;
+  line-height: 60rpx;
+  text-align: center;
+}
+
+.dish-item-count-plus {
+  width: 60rpx;
+  height: 60rpx;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
 }

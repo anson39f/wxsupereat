@@ -6,12 +6,12 @@
       <view class="address ellipsis">电话：{{shop.contact_phone}}</view>
       <view class="deliveryfee ellipsis">配送费:${{shop.delivery_cost_fixed}}起</view>
     </view>
-    <view class="welcome ellipsis">地址:{{shop.contact_address}}  {{shop.city_name}}</view>
+    <view class="welcome ellipsis">地址:{{shop.contact_address}} {{shop.city_name}}</view>
     <view class="follow" bindtap="follow" style="display:none">{{followed?'已收藏':'收藏'}}</view>
     <view class="line"></view>
   </view>
   <view class="content-container">
-    <scroll-view class="classify-container" scroll-y="true">
+    <scroll-view class="classify-container" scroll-y="true" bindscroll="onGoodsScroll">
       <view class="classify {{classifySeleted==index?'active':''}}" wx:for="{{shop.category_list}}" wx:for-item="classify" wx:key="id" data-id="{{index}}" bindtap="tapClassify">
         <view class="name">{{classify.category_name}}</view>
       </view>
@@ -19,15 +19,41 @@
     <scroll-view class="goods-container" scroll-y="true" scroll-into-view="{{classifyViewed}}" bindscroll="onGoodsScroll">
       <!-- <view wx:for="{{shop.menu}}" wx:for-item="classify" wx:key="id" id="{{classify.id}}">
         <view class="title">{{classify.package}}</view> -->
-        <view class="goods" wx:for="{{product}}" wx:for-item="menu" wx:key="name">
-          <image class="pic" src="{{menu.product_image ? menu.product_image : defaultImg}}"></image>
+      <view class="goods" wx:for="{{product}}" wx:for-item="menu" wx:key="name">
+        <!-- <image class="pic" src="{{menu.product_image ? menu.product_image : defaultImg}}" style="display:none"></image>
           <view class="name ellipsis">{{menu.product_name}}</view>
-          <view class="sold">月售{{menu.sales}}单</view>
+          <view class="sold" style="display:none">月售{{menu.sales}}单</view>
           <view class="price">${{menu.discount_price}} <i class='like'></i>({{menu.like > 0 ? menu.like : 0}})</view>
           <view class="addCart" bindtap="tapAddCart" data-price="{{menu.discount_price}}" data-name="{{menu.product_name}}" data-pic="{{menu.product_image}}">
             <image src="/imgs/shop/plus.png"></image>
+          </view> -->
+
+        <view class="dish-item-wrp">
+          <view class="dish-item-info" style="">
+            <view>
+              <text class="dish-item-name">{{menu.product_name}}</text>
+            </view>
+            <view>
+              <text class="dish-item-money">${{menu.discount_price}}</text>
+            </view>
           </view>
-         </view> 
+
+          <view class="dish-item-count" style="">
+            <view class="dish-item-tab">
+              <view hidden="{{dish.count == 0}}" class="dish-item-count-minus" data-id="{{dish.id}}" data-cid="{{menu.id}}" bindtap="minusCount">
+                <image class="image" src="/imgs/shop/mealBoxMinus.png" />
+              </view>
+            </view>
+            <view class="dish-item-count-text dish-item-tab">
+              <text hidden="{{dish.count == 0}}">{{dish.count}}</text>
+            </view>
+            <view class="dish-item-count-plus"  bindtap="tapAddCart" data-price="{{menu.discount_price}}" data-name="{{menu.product_name}}" data-pic="{{menu.product_image}}">
+              <image class="image" src="/imgs/shop/mealBoxAdd.png" />
+            </view>
+          </view>
+        </view>
+
+      </view>
       <!-- </view> -->
     </scroll-view>
   </view>
