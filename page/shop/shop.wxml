@@ -40,12 +40,12 @@
 
           <view class="dish-item-count" style="">
             <view class="dish-item-tab">
-              <view hidden="{{dish.count == 0}}" class="dish-item-count-minus" data-id="{{dish.id}}" data-cid="{{menu.id}}" bindtap="minusCount">
+              <view hidden="{{menu.count == 0}}" class="dish-item-count-minus" data-id="{{menu.product_id}}" data-cid="{{menu.category_id}}" bindtap="minusCount">
                 <image class="image" src="/imgs/shop/mealBoxMinus.png" />
               </view>
             </view>
             <view class="dish-item-count-text dish-item-tab">
-              <text hidden="{{dish.count == 0}}">{{dish.count}}</text>
+              <text hidden="{{menu.count == 0}}">{{menu.count}}</text>
             </view>
             <view class="dish-item-count-plus"  bindtap="tapAddCart" data-price="{{menu.discount_price}}" data-name="{{menu.product_name}}" data-pic="{{menu.product_image}}">
               <image class="image" src="/imgs/shop/mealBoxAdd.png" />

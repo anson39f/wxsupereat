@@ -18,7 +18,8 @@ Page({
     var shop;
     this.getShopDetail(shopId); // throw Exception
 
-    var res = wx.getStorageSync('orderList');
+    var res = wx.getStorageSync(shopId);
+    console.log(res);
     if (res) {
       this.setData({
         cart: {
@@ -92,10 +93,13 @@ Page({
       console.log(res);
       var response = res.data.response;
       if (response.httpCode == 200) {
+        for (var index in response.product_list) {
+          response.product_list[index].count = 0;
+        }
         self.setData({
           product: response.product_list
         })
-
+        console.log(response.product_list);
         console.log("------------成功-------------");
       } else {
         wx.showModal({
@@ -108,9 +112,12 @@ Page({
     })
   },
   checkOrderSame: function (name) {
-    var list = this.data.cartList[this.data.shopId];
+    var list = this.data.cartList;
     for (var index in list) {
       if (list[index].name === name) {
+        if (index == 'undefined') {
+          return false;
+        }
         return index;
       }
     }
@@ -121,31 +128,30 @@ Page({
     var name = e.target.dataset.name;
     var img = e.target.dataset.pic;
     var list = this.data.cartList;
-    var sortedList = [];
+    var product;
     var index;
-    if (index = this.checkOrderSame(name)) {
-      sortedList = list[this.data.shopId][index];
-      var num = list[this.data.shopId][index].num;
-      list[this.data.shopId][index].num = num + 1;
-    }
-    else {
+    if (this.checkOrderSame(name)) {
+      product = list[this.checkOrderSame(name)];
+      var count = product.count;
+      product.count = count + 1;
+    } else {
       var order = {
         "price": price,
         "num": 1,
         "name": name,
         'img': img,
         "shopId": this.data.shopId,
-        "shopName": this.data.shop.restaurant_name,
+        "shopName": this.data.shop.outlet_name,
         "pay": 0,
       }
-      list[this.data.shopId].push(order);
-      sortedList = order;
+      list.push(order);
+
     }
     this.setData({
       cartList: list,
       localList: server.filterEmptyObject(list)
     });
-    this.addCount(sortedList);
+    this.addCount(order);
   },
   tapReduceCart: function (e) {
     var name = e.target.dataset.name;
@@ -169,9 +175,9 @@ Page({
     });
     this.deduceCount(sortedList);
   },
-  addCount: function (list) {
+  addCount: function (order) {
     var count = this.data.cart.count + 1,
-      total = this.data.cart.total + list.price;
+      total = this.data.cart.total + order.price;
     total = Math.round(parseFloat(total));
     this.saveCart(count, total);
   },
@@ -192,7 +198,7 @@ Page({
       }
     });
     wx.setStorage({
-      key: 'orderList',
+      key: this.data.shopId,
       data: {
         cartList: this.data.cartList,
         count: this.data.cart.count,
@@ -220,14 +226,16 @@ Page({
       scrollTop = e.detail.scrollTop / scale,
       h = 0,
       classifySeleted,
-      len = this.data.shop.menu.length;
-    this.data.shop.menu.forEach(function (classify, i) {
-      var _h = 70 + classify.menu.length * (46 * 3 + 20 * 2);
-      if (scrollTop >= h - 100 / scale) {
-        classifySeleted = classify.id;
-      }
-      h += _h;
-    });
+      len = this.data.shop.category_list.length;
+
+    // this.data.shop.category_list.forEach(function (classify, i) {
+    //   var _h = 70 + classify.category_list.length * (46 * 3 + 20 * 2);
+    //   if (scrollTop >= h - 100 / scale) {
+    //     classifySeleted = classify.id;
+    //   }
+    //   h += _h;
+    // });
+
     this.setData({
       classifySeleted: classifySeleted
     });
