@@ -10,7 +10,7 @@
     <view class="follow" bindtap="follow" style="display:none">{{followed?'已收藏':'收藏'}}</view>
     <view class="line"></view>
   </view>
-  <view class="content-container">
+  <view class="content-container" style="height:{{containerHeight}}rpx" >
     <scroll-view class="classify-container" scroll-y="true" bindscroll="onGoodsScroll">
       <view class="classify {{classifySeleted==index?'active':''}}" wx:for="{{shop.category_list}}" wx:for-item="classify" wx:key="id" data-id="{{index}}" bindtap="tapClassify">
         <view class="name">{{classify.category_name}}</view>
@@ -40,14 +40,14 @@
 
           <view class="dish-item-count" style="">
             <view class="dish-item-tab">
-              <view hidden="{{menu.count == 0}}" class="dish-item-count-minus" data-id="{{menu.product_id}}" data-cid="{{menu.category_id}}" bindtap="minusCount">
+              <view hidden="{{menu.count == 0}}" class="dish-item-count-minus" data-price="{{menu.discount_price}}" data-name="{{menu.product_name}}" bindtap="tapReduceCart">
                 <image class="image" src="/imgs/shop/mealBoxMinus.png" />
               </view>
             </view>
             <view class="dish-item-count-text dish-item-tab">
               <text hidden="{{menu.count == 0}}">{{menu.count}}</text>
             </view>
-            <view class="dish-item-count-plus"  bindtap="tapAddCart" data-price="{{menu.discount_price}}" data-name="{{menu.product_name}}" data-pic="{{menu.product_image}}">
+            <view class="dish-item-count-plus" bindtap="tapAddCart" data-price="{{menu.discount_price}}" data-name="{{menu.product_name}}" data-pic="{{menu.product_image}}">
               <image class="image" src="/imgs/shop/mealBoxAdd.png" />
             </view>
           </view>
@@ -60,13 +60,13 @@
   <view class="cart-detail" hidden="{{!showCartDetail||!cart.count}}">
     <view class="mask" bindtap="hideCartDetail"></view>
     <view class="list">
-      <view class="item" wx:for="{{localList}}" wx:key="*this">
-        <view wx:for="{{item}}" wx:key="name" wx:for-item="order" class='cartList'>
+      <view wx:for="{{cartList}}" wx:key="name" wx:for-item="order" class='cartList'>
+        <view class="item">
           <view class="name ellipsis inside-content">{{order.name}}</view>
+          <view class="total right-content order-price">${{order.pay}}</view>
           <view class="reduce right-content" data-price="{{order.price}}" data-name="{{order.name}}" bindtap="tapReduceCart">-</view>
           <view class="num right-content">{{order.num}}</view>
           <view class="add right-content" data-name="{{order.name}}" data-price="{{order.price}}" bindtap="tapAddCart" data-pic="{{order.img}}">+</view>
-          <view class="total right-content order-price">￥{{order.price * order.num}}</view>
         </view>
       </view>
     </view>
@@ -77,7 +77,7 @@
         <image src="/imgs/shop/cart.png"></image>
         <view class="count">{{cart.count}}</view>
       </view>
-      <view class="total">￥{{cart.total}}</view>
+      <view class="total">${{cart.total}}</view>
     </view>
     <form bindsubmit="submit" report-submit="true">
       <!--<view formType="submit" class="submit">去结算</view>-->

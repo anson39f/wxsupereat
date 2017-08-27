@@ -10,6 +10,7 @@ Page({
     cartList: [],
     localList: [],
     showCartDetail: false,
+    containerHeight:920,
     defaultImg: 'http://global.zuzuche.com/assets/images/common/zzc-logo.png',
   },
   onLoad: function (options) {
@@ -34,13 +35,13 @@ Page({
         })
       }
     }
-    if (typeof this.data.cartList[this.data.shopId] == 'undefined' || server.isEmptyObject(this.data.cartList[this.data.shopId])) {
-      var cartList = this.data.cartList;
-      cartList[this.data.shopId] = [];
-      this.setData({
-        cartList: cartList
-      })
-    }
+    // if (typeof this.data.cartList[this.data.shopId] == 'undefined' || server.isEmptyObject(this.data.cartList[this.data.shopId])) {
+    //   var cartList = this.data.cartList;
+    //   cartList[this.data.shopId] = [];
+    //   this.setData({
+    //     cartList: cartList
+    //   })
+    // }
     console.log(this.data.localList, this.data.cartList)
   },
   onShow: function () {
@@ -99,6 +100,7 @@ Page({
         self.setData({
           product: response.product_list
         })
+        self.checkProductName(self.data.product);
         console.log(response.product_list);
         console.log("------------成功-------------");
       } else {
@@ -110,6 +112,24 @@ Page({
         console.log("------------失败-------------");
       }
     })
+  },
+
+  checkProductName: function (product) {
+    var list = this.data.cartList;
+    if (list.lenght == 0 || product.lenght == 0) {
+      return false;
+    };
+    for (var index in list) {
+      for (var i in product) {
+        if (list[index].name === product[i].product_name) {
+          product[i].count = list[index].num;
+        }
+      }
+    }
+    this.setData({
+      product: product
+    })
+    return false;
   },
   checkOrderSame: function (name) {
     var list = this.data.cartList;
@@ -124,71 +144,83 @@ Page({
     return false;
   },
   tapAddCart: function (e) {
-    var price = parseFloat(e.target.dataset.price);
-    var name = e.target.dataset.name;
-    var img = e.target.dataset.pic;
+    var price = parseFloat(e.currentTarget.dataset.price);
+    // var price = e.currentTarget.dataset.price;
+    var name = e.currentTarget.dataset.name;
+    var img = e.currentTarget.dataset.pic;
     var list = this.data.cartList;
     var product;
     var index;
-    if (this.checkOrderSame(name)) {
-      product = list[this.checkOrderSame(name)];
-      var count = product.count;
-      product.count = count + 1;
+    if (index = this.checkOrderSame(name)) {
+      product = list[index];
+      var num = product.num;
+      product.num = num + 1;
+      product.pay = this.toDecimal(product.price * product.num);
     } else {
-      var order = {
+      product = {
         "price": price,
         "num": 1,
         "name": name,
         'img': img,
         "shopId": this.data.shopId,
         "shopName": this.data.shop.outlet_name,
-        "pay": 0,
+        "pay": this.toDecimal(price),
       }
-      list.push(order);
+      console.log(product);
+      list.push(product);
 
     }
     this.setData({
       cartList: list,
       localList: server.filterEmptyObject(list)
     });
-    this.addCount(order);
+    this.checkProductName(this.data.product);
+    this.addCount(product);
   },
   tapReduceCart: function (e) {
-    var name = e.target.dataset.name;
-    var price = parseFloat(e.target.dataset.price);
+    var name = e.currentTarget.dataset.name;
+    var price = parseFloat(e.currentTarget.dataset.price);
     var list = this.data.cartList;
-    var index, sortedList = [];
+    var index, product;
     if (index = this.checkOrderSame(name)) {
-      var num = list[this.data.shopId][index].num
+      var num = list[index].num
       if (num > 1) {
-        sortedList = list[this.data.shopId][index];
-        list[this.data.shopId][index].num = num - 1;
-      }
-      else {
-        sortedList = list[this.data.shopId][index]
-        list[this.data.shopId].splice(index, 1);
+        product = list[index];
+        list[index].num = num - 1;
+        product.pay = this.toDecimal(product.price * product.num);
+        this.checkProductName(this.data.product);
+      } else {
+        product = list[index];
+        product.num = 0;
+        this.checkProductName(this.data.product);        
+        list.splice(index, 1);
       }
     }
     this.setData({
       cartList: list,
       localList: server.filterEmptyObject(list)
     });
-    this.deduceCount(sortedList);
+    console.log(list);
+    this.deduceCount(product);
   },
   addCount: function (order) {
-    var count = this.data.cart.count + 1,
-      total = this.data.cart.total + order.price;
-    total = Math.round(parseFloat(total));
+    var count = this.data.cart.count + 1;
+    var total = this.data.cart.total + order.price;
+    // total = Math.round(parseFloat(total));
+    total = this.toDecimal(total);
     this.saveCart(count, total);
+    this.checkProductName(this.data.product);
   },
-  deduceCount: function (list) {
+  deduceCount: function (product) {
     var count = this.data.cart.count - 1,
-      total = this.data.cart.total - list.price;
-    total = Math.round(parseFloat(total));
+      total = this.data.cart.total - product.price;
+    // total = Math.round(parseFloat(total));
+    total = this.toDecimal(total);
     this.saveCart(count, total);
+    
   },
   saveCart: function (count, total) {
-    total = Math.round(parseFloat(total));
+    // total = Math.round(parseFloat(total));    
     if (typeof total == null)
       total = 0;
     this.setData({
@@ -206,6 +238,16 @@ Page({
       }
     })
   },
+  //保留两位小数  
+  //功能：将浮点数四舍五入，取小数点后2位 
+  toDecimal: function (x) {
+    var f = parseFloat(x);
+    if (isNaN(f)) {
+      return;
+    }
+    f = Math.round(x * 100) / 100;
+    return f;
+  },
   follow: function () {
     this.setData({
       followed: !this.data.followed
@@ -214,11 +256,13 @@ Page({
   onGoodsScroll: function (e) {
     if (e.detail.scrollTop > 10 && !this.data.scrollDown) {
       this.setData({
-        scrollDown: true
+        scrollDown: true,
+        containerHeight:1220
       });
     } else if (e.detail.scrollTop < 10 && this.data.scrollDown) {
       this.setData({
-        scrollDown: false
+        scrollDown: false,
+        containerHeight: 920
       });
     }
 
