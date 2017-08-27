@@ -311,9 +311,10 @@ Page({
     });
   },
   submit: function (e) {
-    var total = this.data.cart.total
+    var total = this.data.cart.total;
+    var shopId = this.data.shopId;
     wx.navigateTo({
-      url: '/page/order/order?pay=1&total=' + total
+      url: '/page/order/order?pay=1&total=' + total + '&shopId=' + shopId
     })
   }
 });
