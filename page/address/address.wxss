@@ -1,27 +1,22 @@
 /* 地址 */
 
-.address-add {
-  /* font-size: 30rpx;
+.add {
+  font-size: 30rpx;
   color: #606060;
   height: 150rpx;
   margin-bottom: 20rpx;
-      background: #fff url(http://www.jibuu.cn/ImgServer/wx/bottom.jpg) repeat-x bottom;    
-   background-color: white; 
-   background-size: auto 1px;  */
-
-   width: 100%;
-    height: 130rpx;
-    display: flex;
-    flex-direction: row;
-    background-color: white;
-    border-top: solid #d8d8d8 1rpx;
+  background: #fff;
+  background-color: white;
+  background-size: auto 1px;
+  width: 100%;
+  height: 100rpx;
 }
 
 .location {
   width: 80%;
   margin-left: 20rpx;
   padding-left: 50rpx;
-  height: 150rpx;
+  height: 100%;
   float: left;
   background: url(http://www.jibuu.cn/ImgServer/wx/loca.jpg) no-repeat left center;
   background-size: auto 50rpx;
@@ -29,7 +24,7 @@
 
 .locationL {
   width: 10%;
-  height: 150rpx;
+  height: 100%;
   float: right;
   background: url(http://www.jibuu.cn/ImgServer/wx/kh.jpg) no-repeat center;
   background-size: auto 30rpx;
@@ -38,7 +33,8 @@
 .lotit {
   font-size: 30rpx;
   color: #4a4a4a;
-  margin-top: 38rpx;
+  height: 100%;
+  margin-top: 35rpx;
 }
 
 .lotxt {
@@ -47,62 +43,73 @@
   margin-top: 5rpx;
 }
 
-/* page{
-    background-color: #f5f4f4;
-} */
+page {
+  background-color: #f5f4f4;
+}
 
 /* 地址 列表*/
-.address-view{
-    margin-top: 20rpx;
-    border-bottom: solid #d8d8d8 1rpx;
+
+.address-view {
+  margin-top: 20rpx;
+  border-bottom: solid #d8d8d8 1rpx;
 }
-.address-item{
-    width: 100%;
-    height: 130rpx;
-    display: flex;
-    flex-direction: row;
-    background-color: white;
-    border-top: solid #d8d8d8 1rpx;
+
+.address-item {
+  width: 100%;
+  height: 130rpx;
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+  border-top: solid #d8d8d8 1rpx;
 }
-.select-view{
-    width: 80rpx;
-    height: 100%;
+
+.select-view {
+  width: 80rpx;
+  height: 100%;
 }
-.select-view image{
-    width: 30rpx;
-    height: 30rpx;
-    margin: 50rpx 5rpx  50rpx 40rpx ;
+
+.select-view image {
+  width: 30rpx;
+  height: 30rpx;
+  margin: 50rpx 5rpx 50rpx 40rpx;
 }
-.content-view{
-    display: flex;
-    flex-direction: column;
-    flex-grow: 0;
-    justify-content: center;
-    font-size: 30rpx;
+
+.content-view {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 0;
+  justify-content: center;
+  font-size: 30rpx;
 }
-.content-view .top{
-    margin-bottom: 5rpx;
+
+.content-view .top {
+  margin-bottom: 5rpx;
 }
-.content-view .name{
-    font-size: 36rpx;
+
+.content-view .name {
+  font-size: 36rpx;
 }
-.content-view .phone{
-    color: #4a5054;
-    margin-left: 20rpx;
+
+.content-view .phone {
+  color: #4a5054;
+  margin-left: 20rpx;
 }
-.content-view .address{
-    width: 550rpx;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    color: #4a5054
+
+.content-view .address {
+  width: 550rpx;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  color: #4a5054;
 }
-.edit-view{
-    width: 120rpx;
-    height: 100%;
+
+.edit-view {
+  width: 120rpx;
+  height: 100%;
 }
-.edit-view image{
-    width: 30rpx;
-    height: 30rpx;
-    margin: 50rpx 40rpx  50rpx;
+
+.edit-view image {
+  width: 30rpx;
+  height: 30rpx;
+  margin: 50rpx 40rpx 50rpx;
 }
