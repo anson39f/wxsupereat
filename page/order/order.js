@@ -1,5 +1,6 @@
 var app = getApp()
-var common = require('../../utils/server.js');
+var server = require('../../utils/server.js');
+
 Page({
   data: {
     orderList: [],
@@ -10,6 +11,7 @@ Page({
     total: 0,
     tax: 0,
     taxNme: '',
+    transportation:0,
     pay: 0,
     is_empty: false,
     cart: {
@@ -35,6 +37,7 @@ Page({
     var delivery_cost_fixed = option.delivery_cost_fixed;
     var baserate = option.baserate;
     var basedistance = option.basedistance;
+    var contact_address = option.contact_address;
     console.log('下单：');
     console.log(option);
 
@@ -57,10 +60,11 @@ Page({
     //     cartList.push(orderDetail);
     //   }
     // }
-    var taxcount = res.count * tax_percentage*0.01;
+    this.getDistance(option);
+    var taxcount = res.count * tax_percentage * 0.01;
     console.log(taxcount + ' ' + tax_percentage);
     this.setData({
-      total: res.total,
+      // total: res.total,
       count: res.count,
       orderList: res.cartList,
       pay: pay,
@@ -98,6 +102,41 @@ Page({
   bindPickerChange: function (e) {
     this.setData({
       index: e.detail.value
+    })
+  },
+
+  getDistance: function (option) {
+    var contact_address = option.contact_address;
+    var self = this;
+    server.postJSON('https://supereat.ca/api/wx_distance', {
+      useraddress: '666 spadina ave, toronto',
+      shopaddress: contact_address,
+      apikey: 'mazQ1KCHKYpRjADvPmJAuaiDdzv0UO8X',
+    }, function (res) {
+      console.log(res);
+      var response = res.data.response;
+      if (response.httpCode == 200) {
+        var distance = response.distance;
+        var basedistance = option.basedistance;
+        var baserate = option.baserate;
+        var delivery_cost_fixed = option.delivery_cost_fixed;
+        var transportation;
+        if (basedistance < distance){
+          var distance_fee = (distance - basedistance)/5;
+          transportation = distance_fee * baserate + delivery_cost_fixed;
+        }else{
+          transportation = delivery_cost_fixed;
+        }
+        transportation = server.toDecimal(transportation);
+        var total = self.data.cart.total + transportation + self.data.tax;
+        self.setData({
+          transportation: transportation,
+          total: server.toDecimal(total)
+        });
+        console.log("------------成功 距离-------------" + response.distance);
+      } else {
+        console.log("------------失败-------------");
+      }
     })
   },
 

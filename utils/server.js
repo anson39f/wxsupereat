@@ -78,6 +78,17 @@ function selectedShopDetail(shopId){
 	return null;
 }
 
+//保留两位小数  
+//功能：将浮点数四舍五入，取小数点后2位 
+function toDecimal (x) {
+  var f = parseFloat(x);
+  if (isNaN(f)) {
+    return;
+  }
+  f = Math.round(x * 100) / 100;
+  return f;
+}
+
 module.exports = {
 	getJSON: function () {
 		__json('GET', __args.apply(this, arguments));
@@ -88,5 +99,6 @@ module.exports = {
 	formatTime: formatTime,
 	isEmptyObject: isEmptyObject,
 	selectedShopDetail: selectedShopDetail,
-	filterEmptyObject: filterEmptyObject
+	filterEmptyObject: filterEmptyObject,
+  toDecimal: toDecimal
 }

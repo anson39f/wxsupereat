@@ -9,6 +9,7 @@
       <view class="location">
         <view class="lotit">{{addressList[index].firstname}}　{{addressList[index].lastname}} {{addressList[index].mobile}}</view>
         <view class="lotxt">{{addressList[index].address}}</view>
+        <view class="lotxt" hidden="{{addressString.length > 0 }}">请填写收货地址信息</view>
       </view>
 
     </picker>
@@ -42,8 +43,8 @@
     <view class='line-cut' hidden='{{total<=0 && pay<=0}}'></view>
     <view class='confirm-container' hidden='{{total<=0 && pay <= 0}}'>
       <view class='right-container' hidden='{{tax == 0}}'>{{taxNme}}:${{tax}}</view>
-      <view class='right-container'>运费：${{cart.total}}</view>
-      <view class='right-container'>合计：${{cart.total}}</view>
+      <view class='right-container'>运费：${{transportation}}</view>
+      <view class='right-container'>合计：${{total}}</view>
       <view class='right-container'>
         <view class='confirm-btn' bindtap='confirm'>去结算</view>
       </view>

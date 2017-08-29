@@ -320,6 +320,7 @@ Page({
       + '&tax_percentage=' + shop.tax_percentage + '&tax_label_name=' + shop.tax_label_name
       + '&delivery_cost_fixed=' + shop.delivery_cost_fixed
       + '&baserate=' + shop.baserate + '&basedistance=' + shop.basedistance
+      + '&contact_address=' + shop.contact_address
     })
   }
 });
