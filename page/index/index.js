@@ -82,11 +82,11 @@ Page({
       }
     });
     server.postJSON('https://supereat.ca/api/store_list', {
-      city: 71,
-      location: 1035,
+      city: 69,//71
+      location: 1032,//1035
       category_ids: "",
       cuisine_ids: "",
-      language: "1",
+      language: "2",
       sortby: "",
       orderby: ""
     }, function (res) {

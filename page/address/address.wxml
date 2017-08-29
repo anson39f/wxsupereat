@@ -18,10 +18,10 @@
         </view>
         <view class="content-view">
           <view class="top">
-            <text class="name">{{address.name}}</text>
-            <text class="phone">{{address.phone}}</text>
+            <text class="name">{{address.firstname}} {{address.lastname}}</text>
+            <text class="phone">{{address.mobile}}</text>
           </view>
-          <text class="address">{{address.area}}{{address.detail_address}}</text>
+          <text class="address">{{address.buzzcode}}{{address.address}}</text>
         </view>
         <view class="edit-view">
           <image src="../../images/editAddress.png"></image>
@@ -29,4 +29,4 @@
       </view>
     </block>
   </view>
-</scroll-view>>
+</scroll-view>

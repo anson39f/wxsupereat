@@ -20,7 +20,7 @@ page {
 }
 
 .paylable {
-  width: 150rpx;
+  width: 250rpx;
   float: left;
   font-size: 30rpx;
   color: #4a4a4a;

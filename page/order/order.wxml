@@ -3,14 +3,21 @@
     <view class='title'>我的订单</view>
   </view>
 
+
   <view class="address">
-    <view class="location">
-      <view class="lotit">王大锤　　15745784854</view>
-      <view class="lotxt">上海七宝七宝宝龙城50号854室</view>
-    </view>
-    <view class="locationL">
-    </view>
+    <picker bindchange="bindPickerChange" value="{{index}}" range="{{addressString}}">
+      <view class="location">
+        <view class="lotit">{{addressList[index].firstname}}　{{addressList[index].lastname}} {{addressList[index].mobile}}</view>
+        <view class="lotxt">{{addressList[index].address}}</view>
+      </view>
+
+    </picker>
+    <navigator url="/page/add/add">
+      <view class="locationL">
+      </view>
+    </navigator>
   </view>
+
 
   <scroll-view scroll-y='true' scroll-top="300">
     <!-- <view wx:for="{{orderList}}" wx:key="name" class='order'>  -->
@@ -34,7 +41,7 @@
     </view>
     <view class='line-cut' hidden='{{total<=0 && pay<=0}}'></view>
     <view class='confirm-container' hidden='{{total<=0 && pay <= 0}}'>
-      <view class='right-container'>HST：${{cart.total}}</view>
+      <view class='right-container' hidden='{{tax == 0}}'>{{taxNme}}:${{tax}}</view>
       <view class='right-container'>运费：${{cart.total}}</view>
       <view class='right-container'>合计：${{cart.total}}</view>
       <view class='right-container'>

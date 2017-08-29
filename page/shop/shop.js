@@ -10,7 +10,7 @@ Page({
     cartList: [],
     localList: [],
     showCartDetail: false,
-    containerHeight:920,
+    containerHeight: 920,
     defaultImg: 'http://global.zuzuche.com/assets/images/common/zzc-logo.png',
   },
   onLoad: function (options) {
@@ -52,10 +52,10 @@ Page({
   getShopDetail: function (id) {
     var self = this;
     server.postJSON('https://supereat.ca/api/store_info_mob', {
-      city: '71',
+      city: '69',//71
       outlet_id: id,
-      location: 1035,
-      language: "1",
+      location: 1032,//1035
+      language: '2',
       user_id: '',
       category_id: '',
       user_id: '',
@@ -83,8 +83,8 @@ Page({
   getShopMenu: function (id) {
     var self = this;
     server.postJSON('https://supereat.ca/api/store_product_mob', {
-      location: 1035,
-      language: "1",
+      location: 1032,//1035
+      language: '2',
       user_id: '',
       category_id: id,
       outlet_id: this.data.shop.outlets_id,
@@ -192,7 +192,7 @@ Page({
       } else {
         product = list[index];
         product.num = 0;
-        this.checkProductName(this.data.product);        
+        this.checkProductName(this.data.product);
         list.splice(index, 1);
       }
     }
@@ -217,7 +217,7 @@ Page({
     // total = Math.round(parseFloat(total));
     total = this.toDecimal(total);
     this.saveCart(count, total);
-    
+
   },
   saveCart: function (count, total) {
     // total = Math.round(parseFloat(total));    
@@ -257,7 +257,7 @@ Page({
     if (e.detail.scrollTop > 10 && !this.data.scrollDown) {
       this.setData({
         scrollDown: true,
-        containerHeight:1220
+        containerHeight: 1220
       });
     } else if (e.detail.scrollTop < 10 && this.data.scrollDown) {
       this.setData({
@@ -311,10 +311,15 @@ Page({
     });
   },
   submit: function (e) {
+    var shop = this.data.shop;
     var total = this.data.cart.total;
     var shopId = this.data.shopId;
+    console.log(shop);
     wx.navigateTo({
       url: '/page/order/order?pay=1&total=' + total + '&shopId=' + shopId
+      + '&tax_percentage=' + shop.tax_percentage + '&tax_label_name=' + shop.tax_label_name
+      + '&delivery_cost_fixed=' + shop.delivery_cost_fixed
+      + '&baserate=' + shop.baserate + '&basedistance=' + shop.basedistance
     })
   }
 });

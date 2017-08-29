@@ -3,7 +3,7 @@
     <view class="location ellipsis" bindtap="toNearby">
       <image class="icon" src="/imgs/index/icon_location.png" /> {{address}}
     </view>
-    <view class="search" bindtap="tapSearch">
+    <view class="search" bindtap="tapSearch" hidden="{{true}}">
       <image class="icon" src="/imgs/index/icon_search.png" />
       <i class="fa fa-home"></i> 烤鸭
     </view>
@@ -18,7 +18,7 @@
       </block>
     </swiper>
 
-    <swiper class="section icons" indicator-dots="{{false}}" autoplay="" interval="" duration="500">
+    <swiper class="section icons" indicator-dots="{{false}}" autoplay="" interval="" duration="500" hidden="{{true}}">
       <swiper-item wx:for="{{icons}}" wx:for-item="list" wx:key="id">
         <view class="icon" wx:for="{{list}}" wx:for-item="icon" wx:key="id" bindtap="toNearby">
           <image src="{{icon.img}}" />

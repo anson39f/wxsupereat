@@ -3,40 +3,73 @@
 
     <!--联系人-->
     <view class="payli">
-      <view class="paylable">联系人</view>
+      <view class="paylable">First name</view>
       <view>
-        <input name="input" type="text" class="payinput" placeholder="" />
+        <input name="firstname" type="text" class="payinput" placeholder="" />
+      </view>
+    </view>
+
+    <!--联系人-->
+    <view class="payli">
+      <view class="paylable">Last name</view>
+      <view>
+        <input name="lastname" type="text" class="payinput" placeholder="" />
       </view>
     </view>
 
     <!--联系电话-->
     <view class="payli">
-      <view class="paylable">联系电话</view>
+      <view class="paylable" style="">Mobile</view>
       <view>
-        <input name="input" type="tel" class="payinput" placeholder="" />
+        <input name="mobile" type="number" class="payinput" placeholder=""/>
       </view>
     </view>
 
+    <!--联系邮箱-->
+    <view class="payli">
+      <view class="paylable">Email</view>
+      <view>
+        <input name="email" type="text" class="payinput" placeholder=""/>
+      </view>
+    </view>
+
+    <!--房间号-->
+    <view class="payli">
+      <view class="paylable">Room Number</view>
+      <view>
+        <input name="roomnumber" type="tel" class="payinput" placeholder="" />
+      </view>
+    </view>
+    <!--门铃号-->
+    <view class="payli">
+      <view class="paylable">Buzz Code</view>
+      <view>
+        <input name="buzzcode" type="tel" class="payinput" placeholder="" />
+      </view>
+    </view>
     <!--详细地址-->
     <view class="payli0">
-      <view class="paylable0">联系地址</view>
+      <view class="paylable0">Address</view>
       <view>
-        <textarea class="textarea"></textarea>
+        <textarea class="textarea" name="address"></textarea>
       </view>
       <view class="clear"></view>
     </view>
 
     <!--备注-->
-    <view class="payli0">
+    <!-- <view class="payli0">
       <view class="paylable0">备注</view>
       <view>
         <textarea class="textarea0"></textarea>
       </view>
       <view class="clear"></view>
-    </view>
+    </view> -->
   </view>
   <view class="formbot">
-    <view class="delect">删除</view>
-    <view class="submit" bindtap="pay">确定</view>
+    <!-- <view class="delect">删除</view> -->
+    <!-- <view class="submit" bindtap="ok">确定</view> -->
+
+    <button class="delect" formType="reset">删除</button>
+    <button class="submit" formType="submit">确定</button>
   </view>
 </form>

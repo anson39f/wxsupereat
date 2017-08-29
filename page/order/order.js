@@ -3,8 +3,13 @@ var common = require('../../utils/server.js');
 Page({
   data: {
     orderList: [],
+    addressList: [],
+    addressString: [],
+    index: 0,
     count: 0,
     total: 0,
+    tax: 0,
+    taxNme: '',
     pay: 0,
     is_empty: false,
     cart: {
@@ -13,15 +18,26 @@ Page({
     },
   },
   onLoad: function (option) {
+    var self = this;
     var pay = 1;
-    if (option.pay) {
-      var pay = option.pay;
-      var shopId = option.shopId;
-      if (parseFloat(option.total) > 0)
-        var is_empty = true;
-      else
-        var is_empty = false;
+    if (!option.pay) {
+      return;
     }
+    if (parseFloat(option.total) > 0)
+      var is_empty = true;
+    else
+      var is_empty = false;
+
+    var pay = option.pay;
+    var shopId = option.shopId;
+    var tax_label_name = option.tax_label_name;
+    var tax_percentage = option.tax_percentage;
+    var delivery_cost_fixed = option.delivery_cost_fixed;
+    var baserate = option.baserate;
+    var basedistance = option.basedistance;
+    console.log('下单：');
+    console.log(option);
+
     var res = wx.getStorageSync(shopId);
     var cartList = res.cartList;
     // for (var index in cartList) {
@@ -41,19 +57,50 @@ Page({
     //     cartList.push(orderDetail);
     //   }
     // }
+    var taxcount = res.count * tax_percentage*0.01;
+    console.log(taxcount + ' ' + tax_percentage);
     this.setData({
       total: res.total,
       count: res.count,
       orderList: res.cartList,
       pay: pay,
+      tax: taxcount,
+      taxNme: tax_label_name,
       is_empty: is_empty,
       cart: {
         count: res.count,
         total: res.total
       }
     });
+
   },
-  onShow: function () { },
+  onShow: function () {
+    var self = this;
+    var address = [];
+    wx.getStorage({
+      key: 'address',
+      success: function (res) {
+        var list = res.data;
+        for (var index in list) {
+          var string = list[index].firstname + ' ' + list[index].mobile + ' ' + list[index].address;
+          address.push(string);
+        }
+        console.log(address);
+        self.setData({
+          addressString: address,
+          addressList: list
+        })
+      },
+    })
+
+  },
+
+  bindPickerChange: function (e) {
+    this.setData({
+      index: e.detail.value
+    })
+  },
+
   confirm: function () {
     var templateData = this.data.orderList;
     console.log(templateData)
