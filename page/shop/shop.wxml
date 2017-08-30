@@ -47,7 +47,7 @@
             <view class="dish-item-count-text dish-item-tab">
               <text hidden="{{menu.count == 0}}">{{menu.count}}</text>
             </view>
-            <view class="dish-item-count-plus" bindtap="tapAddCart" data-price="{{menu.discount_price}}" data-name="{{menu.product_name}}" data-pic="{{menu.product_image}}">
+            <view class="dish-item-count-plus" bindtap="tapAddCart" data-price="{{menu.discount_price}}" data-name="{{menu.product_name}}" data-pic="{{menu.product_image}}" data-productId="{{menu.product_id}}">
               <image class="image" src="/imgs/shop/mealBoxAdd.png" />
             </view>
           </view>
@@ -66,7 +66,7 @@
           <view class="total right-content order-price">${{order.pay}}</view>
           <view class="reduce right-content" data-price="{{order.price}}" data-name="{{order.name}}" bindtap="tapReduceCart">-</view>
           <view class="num right-content">{{order.num}}</view>
-          <view class="add right-content" data-name="{{order.name}}" data-price="{{order.price}}" bindtap="tapAddCart" data-pic="{{order.img}}">+</view>
+          <view class="add right-content" data-name="{{order.name}}" data-price="{{order.price}}" bindtap="tapAddCart" data-pic="{{order.img}}"  data-productId="{{order.productId}}">+</view>
         </view>
       </view>
     </view>

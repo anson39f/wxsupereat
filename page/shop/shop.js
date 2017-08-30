@@ -148,6 +148,8 @@ Page({
     // var price = e.currentTarget.dataset.price;
     var name = e.currentTarget.dataset.name;
     var img = e.currentTarget.dataset.pic;
+    var productId = e.currentTarget.dataset.productid;
+    console.log('productId:'+productId);
     var list = this.data.cartList;
     var product;
     var index;
@@ -165,9 +167,11 @@ Page({
         "shopId": this.data.shopId,
         "shopName": this.data.shop.outlet_name,
         "pay": this.toDecimal(price),
+        "productId": productId,
       }
-      console.log(product);
       list.push(product);
+      console.log('购物车：');
+      console.log(list);
 
     }
     this.setData({
@@ -320,7 +324,7 @@ Page({
       + '&tax_percentage=' + shop.tax_percentage + '&tax_label_name=' + shop.tax_label_name
       + '&delivery_cost_fixed=' + shop.delivery_cost_fixed
       + '&baserate=' + shop.baserate + '&basedistance=' + shop.basedistance
-      + '&contact_address=' + shop.contact_address
+      + '&contact_address=' + shop.contact_address + '&vendors_id=' + shop.vendors_id
     })
   }
 });

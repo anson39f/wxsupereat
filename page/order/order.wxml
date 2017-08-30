@@ -7,7 +7,7 @@
   <view class="address">
     <picker bindchange="bindPickerChange" value="{{index}}" range="{{addressString}}">
       <view class="location">
-        <view class="lotit">{{addressList[index].firstname}}　{{addressList[index].lastname}} {{addressList[index].mobile}}</view>
+        <view class="lotit">{{addressList[index].firstname}} {{addressList[index].lastname}} {{addressList[index].mobile}}</view>
         <view class="lotxt">{{addressList[index].address}}</view>
         <view class="lotxt" hidden="{{addressString.length > 0 }}">请填写收货地址信息</view>
       </view>
