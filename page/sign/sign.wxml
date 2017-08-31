@@ -1,0 +1,44 @@
+<!--sign.wxml-->
+<view class="container">
+  <view class="login-from">
+
+    <!--账号-->
+    <view class="inputView">
+      <label class="loginLab">First Name</label>
+      <input class="inputText" placeholder="first name" bindinput="phoneInput" />
+    </view>
+    <view class="line"></view>
+
+    <!--密码-->
+    <view class="inputView">
+      <label class="loginLab">Last Name</label>
+      <input class="inputText" password="true" placeholder="last name" bindinput="passwordInput" />
+    </view>
+    <view class="line"></view>
+
+    <view class="inputView">
+      <label class="loginLab">Email</label>
+      <input class="inputText" placeholder="email" bindinput="phoneInput" />
+    </view>
+    <view class="line"></view>
+
+
+    <view class="inputView">
+      <label class="loginLab">Password</label>
+      <input class="inputText" placeholder="password" bindinput="phoneInput" />
+    </view>
+    <view class="line"></view>
+
+    <view class="inputView">
+      <label class="loginLab">Moblie Number</label>
+      <input class="inputText" placeholder="moblie number" bindinput="phoneInput" />
+    </view>
+    <view class="line"></view>
+
+    <view class="line"></view>
+    <!--按钮-->
+    <view class="loginBtnView">
+      <button class="loginBtn" type="default" size="{{primarySize}}" loading="{{loading}}" plain="{{plain}}" disabled="{{disabled}}" bindtap="login">注册</button>
+    </view>
+  </view>
+</view>

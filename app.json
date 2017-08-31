@@ -6,14 +6,16 @@
     "page/mine/mine",
     "page/order/order",
     "page/address/address",
-    "page/add/add"
+    "page/add/add",
+    "page/login/login",
+    "page/sign/sign"
   ],
   "window": {
     "navigationBarBackgroundColor": "#feb70f",
     "navigationBarTextStyle": "white",
     "backgroundColor": "#efefef",
     "backgroundTextStyle": "dark",
-    "navigationBarTitleText": "外卖订餐"
+    "navigationBarTitleText": "我的第一个微信小程序"
   },
   "tabBar": {
     "color": "#878787",
