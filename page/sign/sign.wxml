@@ -5,27 +5,27 @@
     <!--账号-->
     <view class="inputView">
       <label class="loginLab">First Name</label>
-      <input class="inputText" placeholder="first name" bindinput="phoneInput" />
+      <input class="inputText" placeholder="first name" bindinput="firstInput" />
     </view>
     <view class="line"></view>
 
-    <!--密码-->
+   
     <view class="inputView">
       <label class="loginLab">Last Name</label>
-      <input class="inputText" password="true" placeholder="last name" bindinput="passwordInput" />
+      <input class="inputText" password="true" placeholder="last name" bindinput="lastInput" />
     </view>
     <view class="line"></view>
 
     <view class="inputView">
       <label class="loginLab">Email</label>
-      <input class="inputText" placeholder="email" bindinput="phoneInput" />
+      <input class="inputText" placeholder="email" bindinput="emailInput" />
     </view>
     <view class="line"></view>
 
 
     <view class="inputView">
       <label class="loginLab">Password</label>
-      <input class="inputText" placeholder="password" bindinput="phoneInput" />
+      <input class="inputText" placeholder="password" bindinput="passwordInput" />
     </view>
     <view class="line"></view>
 
@@ -38,7 +38,45 @@
     <view class="line"></view>
     <!--按钮-->
     <view class="loginBtnView">
-      <button class="loginBtn" type="default" size="{{primarySize}}" loading="{{loading}}" plain="{{plain}}" disabled="{{disabled}}" bindtap="login">注册</button>
+      <button class="loginBtn" type="default" size="{{primarySize}}" loading="{{loading}}" plain="{{plain}}" disabled="{{disabled}}" bindtap="sign">注册</button>
     </view>
   </view>
+</view>
+
+<!--验证码弹出框  -->
+<modal hidden="{{hiddenmodalput}}" title="请输入验证码" confirm-text="提交" cancel-text="重置" bindcancel="cancel" bindconfirm="confirm">  
+    <label class="title col-0">标题</label> 
+    <input type='text'placeholder="请输入内容" auto-focus/>  
+</modal>  
+
+
+
+<!--使用animation属性指定需要执行的动画-->  
+<view animation="{{animationData}}" class="drawer_box" wx:if="{{showModalStatus}}"> 
+   
+  <!--drawer content-->  
+  <view class="drawer_title">弹窗标题</view> 
+  <view class="drawer_content"> 
+    <view class="top grid"> 
+      <label class="title col-0">标题</label> 
+      <input class="input_base input_h30 col-1" name="rName" value="可自行定义内容"></input> 
+    </view> 
+    <view class="top grid"> 
+      <label class="title col-0">标题</label> 
+      <input class="input_base input_h30 col-1" name="mobile" value="110"></input> 
+    </view> 
+    <view class="top grid"> 
+      <label class="title col-0">标题</label> 
+      <input class="input_base input_h30 col-1" name="phone" value="拒绝伸手党"></input> 
+    </view> 
+    <view class="top grid"> 
+      <label class="title col-0">标题</label> 
+      <input class="input_base input_h30 col-1" name="Email" value="仅供学习使用"></input> 
+    </view> 
+    <view class="top bottom grid"> 
+      <label class="title col-0">备注</label> 
+      <input class="input_base input_h30 col-1" name="bz"></input> 
+    </view> 
+  </view> 
+  <view class="btn_ok" bindtap="powerDrawer" data-statu="close">确定</view> 
 </view>

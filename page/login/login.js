@@ -1,3 +1,4 @@
+var server = require('../../utils/server.js');
 Page({
   data: {
     phone: '',
@@ -27,12 +28,34 @@ Page({
         duration: 2000
       })
     } else {
-      // 这里修改成跳转的页面 
-      wx.showToast({
-        title: '登录成功',
-        icon: 'success',
-        duration: 2000
+      server.postJSON('https://supereat.ca/api/login_user', {        
+        email: '41666@qq.com',
+        password: 123456,
+        login_type: 2,
+        language: 1,
+        user_type: 3,
+        device_id: '50eae3243fc75b1f',
+        device_token: '',
+      }, function (res) {
+        console.log(res);
+        var response = res.data.response;
+        if (response.httpCode == 200) {
+          self.setData({
+
+          });
+          // 这里修改成跳转的页面 
+          wx.showToast({
+            title: '登录成功',
+            icon: 'success',
+            duration: 2000
+          })
+          console.log("------------成功-------------");
+        } else {
+
+          console.log("------------失败-------------");
+        }
       })
+
     }
   },
 
