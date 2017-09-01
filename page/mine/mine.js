@@ -1,7 +1,9 @@
 var app = getApp();
 var server = require('../../utils/server');
 Page({
-	data: {},
+	data: {
+    email: app.globalData.email
+  },
 	onLoad: function () {
 		var that = this
 		//调用应用实例的方法获取全局数据
@@ -16,7 +18,8 @@ Page({
 	},
 	onShow: function () {
 		this.setData({
-			userInfo: app.globalData.userInfo
+			userInfo: app.globalData.userInfo,
+      email: app.globalData.email
 		});
 		console.log(this.data.userInfo);
 	}

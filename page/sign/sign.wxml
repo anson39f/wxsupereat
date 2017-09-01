@@ -44,9 +44,9 @@
 </view>
 
 <!--验证码弹出框  -->
-<modal hidden="{{hiddenmodalput}}" title="请输入验证码" confirm-text="提交" cancel-text="重置" bindcancel="cancel" bindconfirm="confirm">  
-    <label class="title col-0">标题</label> 
-    <input type='text'placeholder="请输入内容" auto-focus/>  
+<modal hidden="{{hiddenmodalput}}" title="OTP Verification" confirm-text="验证" cancel-text="重发" bindcancel="cancel" bindconfirm="confirm">  
+    <view class='codeLabel'>验证码已经发送到您的手机上</view> 
+    <input type='text'placeholder="请输入验证码" auto-focus bindinput="codeInput" />  
 </modal>  
 
 

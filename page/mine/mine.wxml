@@ -2,7 +2,7 @@
   <view class="header">
 
     <image class="avatar" src="{{userInfo.avatarUrl}}" />
-    <view class="nickname">{{userInfo.nickName}}</view>
+    <view class="nickname">{{email}}</view>
   </view>
   <view class="section">
     <navigator url="/page/order/order">

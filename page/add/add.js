@@ -1,4 +1,5 @@
 // add.js
+var app = getApp();
 Page({
 
   /**
@@ -73,6 +74,8 @@ Page({
 
   },
   formSubmit: function (e) {
+    var token = app.globalData.token = response.token;
+    var user_id = app.globalData.user_id = response.user_id;
     console.log('form发生了submit事件，携带数据为：', e.detail.value);
     var res = e.detail.value;
     if (res.firstname == '' || res.lastname == '' || res.mobile == '' || res.address == '') {
@@ -97,12 +100,49 @@ Page({
         return;
       }
 
-      var list = this.data.addressList;
-      list.push(e.detail.value);
-      wx.setStorage({
-        key: 'address',
-        data: list,
+      // var list = this.data.addressList;
+      // list.push(e.detail.value);
+      // wx.setStorage({
+      //   key: 'address',
+      //   data: list,
+      // })
+
+      //保存地址
+      server.postJSON('https://supereat.ca/api/store_address', {
+        landmark: "123",
+        country_id: "59",
+        latitude: 23.1148329732031,
+        user_id: "2",
+        longtitude: 113.3314157277346,
+        city_id: 53,
+        token: '',
+        address: "Tianhe Tianhe, Guangzhou, Guangdong China",
+        language: "1",
+        location_id: 71,
+        address_type: "1",
+        flat_number: "123",
+      }, function (res) {
+        console.log(res);
+        var response = res.data.response;
+        if (response.httpCode == 200) {
+          app.globalData.token = response.token;
+          app.globalData.user_id = response.user_id;
+          self.setData({
+          });
+          
+          wx.showToast({
+            title: '保存成功',
+            icon: 'success',
+            duration: 2000
+          })
+          console.log("------------成功-------------");
+        } else {
+
+          console.log("------------失败-------------");
+        }
       })
+
+
       wx.navigateBack({
         url: '../address/address'
       })

@@ -69,7 +69,7 @@
     <!-- <view class="delect">删除</view> -->
     <!-- <view class="submit" bindtap="ok">确定</view> -->
 
-    <button class="delect" formType="reset">删除</button>
+    <button class="delect" formType="reset">重置</button>
     <button class="submit" formType="submit">确定</button>
   </view>
 </form>

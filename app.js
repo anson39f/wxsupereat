@@ -39,7 +39,10 @@ App({
 		cartList: [],
 		userInfo: [],
     url: "https://supeat.ca/",
-		shops: []
+		shops: [],
+    user_id:'',
+    token:'',
+    email:''
 	},
 	rd_session: null,
 	login: function() {
