@@ -51,7 +51,8 @@ page{
  text-align: right; 
  margin-right: 22px; 
  margin-top: 11px; 
- color: #cccccc; 
+ /* color: #cccccc;  */
+ color: #545454; 
  font-size: 14px
 } 
   

@@ -1,8 +1,10 @@
 <view class="container">
   <view class="header {{scrollDown?'scrolled':''}}">
+  <picker bindchange="bindPickerChange" value="{{index}}" range="{{addressString}}">
     <view class="location ellipsis" bindtap="toNearby">
       <image class="icon" src="/imgs/index/icon_location.png" /> {{address}}
     </view>
+  </picker>
     <view class="search" bindtap="tapSearch" hidden="{{true}}">
       <image class="icon" src="/imgs/index/icon_search.png" />
       <i class="fa fa-home"></i> 烤 鸭

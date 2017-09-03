@@ -149,7 +149,7 @@ Page({
     var name = e.currentTarget.dataset.name;
     var img = e.currentTarget.dataset.pic;
     var productId = e.currentTarget.dataset.productid;
-    console.log('productId:'+productId);
+    console.log('productId:' + productId);
     var list = this.data.cartList;
     var product;
     var index;
@@ -314,17 +314,49 @@ Page({
       showCartDetail: false
     });
   },
+
+
+  //提交订单
   submit: function (e) {
+
     var shop = this.data.shop;
     var total = this.data.cart.total;
     var shopId = this.data.shopId;
     console.log(shop);
+
+    if (!app.globalData.hasLogin) {
+      wx.showModal({
+        title: '提示',
+        content: '请先登录',
+        cancelText: '快速支付',
+        confirmText: '登录',
+        success: function (res) {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '/page/login/login'
+            })
+          } else if (res.cancel) {
+            wx.navigateTo({
+              url: '/page/express/express?pay=1&total=' + total + '&shopId=' + shopId
+              + '&tax_percentage=' + shop.tax_percentage + '&tax_label_name=' + shop.tax_label_name
+              + '&delivery_cost_fixed=' + shop.delivery_cost_fixed
+              + '&baserate=' + shop.baserate + '&basedistance=' + shop.basedistance
+              + '&contact_address=' + shop.contact_address + '&vendors_id=' + shop.vendors_id
+              + '&contact_email=' + shop.contact_email
+            })
+          }
+        }
+      })
+      return;
+    }
+
     wx.navigateTo({
       url: '/page/order/order?pay=1&total=' + total + '&shopId=' + shopId
       + '&tax_percentage=' + shop.tax_percentage + '&tax_label_name=' + shop.tax_label_name
       + '&delivery_cost_fixed=' + shop.delivery_cost_fixed
       + '&baserate=' + shop.baserate + '&basedistance=' + shop.basedistance
       + '&contact_address=' + shop.contact_address + '&vendors_id=' + shop.vendors_id
+      + '&contact_email=' + shop.contact_email
     })
   }
 });

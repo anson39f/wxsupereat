@@ -33,6 +33,11 @@ Page({
         duration: 2000
       })
     } else {
+      wx.showToast({
+        title: '登录中...',
+        icon: 'loading',
+        duration: 10000
+      })
       server.postJSON('https://supereat.ca/api/login_user', {
         email: phone,
         password: password,
@@ -47,19 +52,30 @@ Page({
         if (response.httpCode == 200) {
           app.globalData.token = response.token;
           app.globalData.user_id = response.user_id;
-          app.globalData.email = response.email
+          app.globalData.email = response.email;
+          app.globalData.hasLogin = true;
           // 这里修改成跳转的页面 
           wx.showToast({
             title: '登录成功',
             icon: 'success',
             duration: 2000
           })
+          setTimeout(function () {
+            wx.navigateBack({
+              url: '../mine/mine'
+            })
+          }, 2000);  
           console.log("------------成功-------------");
         } else {
-
+          wx.showToast({
+            title: response.Message,
+            icon: 'loading',
+            duration: 2000
+          })
           console.log("------------失败-------------");
         }
       })
+     
 
     }
   },

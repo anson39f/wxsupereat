@@ -2,6 +2,8 @@ var app = getApp()
 var server = require('../../utils/server.js');
 
 Page({
+
+
   data: {
     orderList: [],
     addressList: [],
@@ -21,70 +23,57 @@ Page({
     },
     items: [
       {
-        "product_id": 3674,
-        "quantity": 5,
-        "discount_price": 33,
-        "ingredients": {
-          "0": {
-            "ingredient_id": 21,
-            "price": "15"
+        product_id: 3674,
+        quantity: 5,
+        discount_price: 33,
+        ingredients: {
+          0: {
+            ingredient_id: 21,
+            price: "15"
           },
-          "ingredient_name": "Ground Beef"
+          ingredient_name: "Ground Beef"
         },
-        "item_offer": "0"
+        item_offer: "0",
+        special_req: ""
       }
     ],
     payment_array: {
-      "user_id": "163",
-      "store_id": "",
-      "outlet_id": '',
-      "vendor_key": "",
-      "total": "262.72",
-      "sub_total": '',
-      "contact_address": "Pramara Niwas, 22nd Main Rd, Jeewan Griha Colony, 2nd Phase, JP Nagar, Bengaluru, Karnataka 560078, India",
-      "contact_email": "kfc@mailinator.com",
-      "outlet_name": "KFC",
-      "service_tax": "12.72",
-      "tax_label_name": "VAT",
-      "tax_percentage": "5.3",
-      "order_status": "1",
-      "order_key": "",
-      "transaction_staus": "1",
-      "transaction_amount": "262.72",
-      "currency_code": "$",
-      "payment_gateway_id": "25",
-      "delivery_charge": "10",
-      "payment_status": "0",
-      "admin_commission": "35",
-      "vendor_commission": "228",
-      "payment_gateway_commission": "5",
-      "delivery_instructions": "",
-      "delivery_address": "3",
-      "delivery_slot": "0",
-      "delivery_cost": "0",
-      "delivery_date": "2017-08-28",
-      "order_type": "1",
-      "coupon_type": "0",
-      "coupon_id": "0",
-      "coupon_amount": "0",
-      "items":
-      [
-        {
-          "product_id": 3674,
-          "quantity": 5,
-          "discount_price": 33,
-          "ingredients": {
-            "0": {
-              "ingredient_id": 21,
-              "price": "15"
-            },
-            "ingredient_name": "Ground Beef"
-          },
-          "item_offer": "0"
-        }
-      ]
-    }
+      coupon_amount: "0",
+      delivery_charge: "10",
+      payment_gateway_commission: 5,
+      coupon_type: "0",
+      currency_code: "",
+      service_tax: "15.264",
+      order_status: 1,
+      invoice_id: "",
+      payment_gateway_id: 25,
+      vendor_commission: 273.6,
+      outlet_name: "KFC",
+      vendor_key: "KFC",
+      payment_status: 0,
+      delivery_instructions: "",
+      tax_label_name: "VAT",
+      admin_commission: 39.664,
+      delivery_cost: 0,
+      total: 313.264,
+      sub_total: 288,
+      tax_percentage: "5.3",
+      transaction_staus: 1,
+      contact_address: "Pramara Niwas, 22nd Main Rd, Jeewan Griha Colony, 2nd Phase, JP Nagar, Bengaluru, Karnataka 560078, India",
+      contact_email: "kfc@mailinator.com",
+      store_id: 179,
+      transaction_amount: 313.264,
+      delivery_date: "2017-08-30",
+      order_type: 1,
+      coupon_id: "0",
+      outlet_id: 53,
+      order_key: "",
+      transaction_id: "",
+      payer_id: "",
+      items: []
+    },
   },
+
   onLoad: function (option) {
     var self = this;
     var pay = 1;
@@ -172,20 +161,34 @@ Page({
     });
 
   },
-  onShow: function () {    
-    wx.showLoading({
-      title: '加载中',
-    })
+
+  onShow: function () {
+    var self = this;
+    var address = [];
     var option = this.data.option;
-    this.getAddress(option);        
+    wx.getStorage({
+      key: 'address',
+      success: function (res) {
+        var list = res.data;
+        for (var index in list) {
+          var string = list[index].firstname + ' ' + list[index].mobile + ' ' + list[index].address;
+          address.push(string);
+        }
+        console.log(address);
+        self.setData({
+          addressString: address,
+          addressList: list
+        })
+        self.getDistance(option);
+      },
+    })
+
   },
 
   bindPickerChange: function (e) {
     this.setData({
       index: e.detail.value
     })
-    var list = this.data.addressList;
-    console.log('选择了地址' +e.detail.value + ' : '+ list[e.detail.value].address);
     var option = this.data.option;
     this.getDistance(option);
   },
@@ -242,7 +245,7 @@ Page({
           total: server.toDecimal(total),
           payment_array: payment_array
         });
-        wx.hideLoading()
+        wx.hideLoading();
         console.log("------------成功 距离-------------" + response.distance);
       } else {
         wx.showModal({
@@ -253,59 +256,44 @@ Page({
 
           }
         })
-        console.log("------------失败 距离-------------");
+        console.log("------------失败-------------");
       }
     })
   },
 
-  //获取地址
-  getAddress: function (option) {
+  confirm: function () {
     var self = this;
-    var token = app.globalData.token;
-    var user_id = app.globalData.user_id;
-    var address = [];
-    //获取地址
-    server.postJSON('https://supereat.ca/api/get_address', {
-      user_id: user_id,
-      token: token,
-      language: "2",
-    }, function (res) {
-      console.log(res);
-      var response = res.data.response;
-      if (response.httpCode == 200) {
-        var list = response.address_list;
-        for (var index in list) {
-          var string = list[index].city_name + ' ' +  list[index].address;
-          address.push(string);
-        }
-        console.log(address);
-        self.setData({
-          addressString: address,
-          addressList: list
-        })
-        self.getDistance(option);
-        
-        console.log("------------获取地址成功-------------");
-      } else {
-        wx.hideLoading()
-        console.log("------------获取地址失败-------------");
-      }
-    })
-  },
-  confirm: function () {    
-    var self = this;
+    var cityIndex = app.globalData.cityIndex;
+    var cityList = app.globalData.city_list;
+    var cityId = cityList[cityIndex].id;
     var pay = this.data.payment_array;
-
+    var list = this.data.addressList;
+    var index = this.data.index;
     wx.showToast({
       title: '正在为您提交订单',
       icon: 'loading',
       mask: true,
       success: function () {
-        server.postJSON('https://supereat.ca/api/offline_payment', {
+
+        server.postJSON('https://supereat.ca/api/guest-offline-payment', {
           language: 2,
-          user_id: app.globalData.user_id,
-          token: app.globalData.token,
-          payment_array: JSON.stringify(pay)
+          payment_array: JSON.stringify(pay),
+          mobile: list[index].mobile,
+          login_type: 3,
+          longitude: app.globalData.longitude,
+          latitude: app.globalData.latitude,
+          city_id: cityId,
+          guest_type: 1,
+          address: list[index].address,
+          first_name: list[index].firstname,
+          device_token: 1,
+          device_id: 1,
+          last_name: list[index].lastname,
+          email: list[index].email,
+          address_type: 1,
+          flat_number: list[index].roomnumber,
+          location_id: server.getLocation(cityId),
+          landmark: list[index].buzzcode
         }, function (res) {
           console.log(res);
           var response = res.data.response;
@@ -353,5 +341,7 @@ Page({
       }
     })
   }
+
 });
+
 

@@ -35,9 +35,9 @@ page{
 .loginLab { 
  margin: 15px 15px 15px 10px; 
  color: #545454; 
- font-size: 16px;
+ font-size: 36rpx;
  font-weight: 300;
- font-family:'黑体'; 
+ /* font-family:'黑体';  */
 } 
 .codeLabel{
   padding-bottom: 10px;
@@ -48,7 +48,8 @@ page{
  text-align: right; 
  margin-right: 22px; 
  margin-top: 11px; 
- color: #cccccc; 
+ color: #545454; 
+ /* color: #cccccc;  */
  font-size: 14px
 } 
   

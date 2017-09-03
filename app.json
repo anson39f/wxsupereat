@@ -8,7 +8,8 @@
     "page/address/address",
     "page/add/add",
     "page/login/login",
-    "page/sign/sign"
+    "page/sign/sign",
+    "page/express/express"
   ],
   "window": {
     "navigationBarBackgroundColor": "#feb70f",

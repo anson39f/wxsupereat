@@ -1,4 +1,5 @@
-
+var server = require('../../utils/server.js');
+var app = getApp();
 Page({
 
   /**
@@ -27,14 +28,40 @@ Page({
    */
   onShow: function () {
     var self = this;
-    wx.getStorage({
-      key: 'address',
-      success: function (res) {
-        self.setData({
-          addressList: res.data
-        })
-      },
+    // wx.getStorage({
+    //   key: 'address',
+    //   success: function (res) {
+    //     self.setData({
+    //       addressList: res.data
+    //     })
+    //   },
+    // })
+    wx.showLoading({
+      title: '加载中',
     })
+    var self = this;
+    var token = app.globalData.token;
+    var user_id = app.globalData.user_id;
+    //获取地址
+    server.postJSON('https://supereat.ca/api/get_address', {
+      user_id: user_id,
+      token: token,
+      language: "2",
+    }, function (res) {
+      console.log(res);
+      var response = res.data.response;
+      if (response.httpCode == 200) {
+        self.setData({
+          addressList: response.address_list
+        })
+        wx.hideLoading()
+        console.log("------------成功-------------");
+      } else {
+        wx.hideLoading()
+        console.log("------------失败-------------");
+      }
+    })
+
   },
 
   /**

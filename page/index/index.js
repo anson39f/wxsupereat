@@ -3,27 +3,11 @@ var server = require('../../utils/server');
 Page({
   data: {
     filterId: 1,
-    address: '广州天河大厦',
-    banners: [
-      // {
-      //   id: 3,
-      //   img: 'https://supeat.ca/apiv1/ADimage/9/1.jpg',
-      //   url: '',
-      //   name: '马队长'
-      // },
-      // {
-      //   id: 1,
-      //   img: 'https://supeat.ca/apiv1/ADimage/9/2.jpg',
-      //   url: '',
-      //   name: '告别午高峰'
-      // },
-      // {
-      //   id: 2,
-      //   img: 'https://supeat.ca/apiv1/ADimage/9/3.jpg',
-      //   url: '',
-      //   name: '金牌好店'
-      // }
-    ],
+    address: '获取中..',
+    index: 0,
+    addressString: [],
+    city_list: [],
+    banners: [],
     icons: [
       [
         {
@@ -54,36 +38,41 @@ Page({
     ],
     url: app.globalData.url,
     shops: [],
-    //basefee =(order_amount >= minimum-free_amount) ? 0 : basefee;
-    // finalfee = basefee + (distance / basekmunit) * baserate;
+
   },
   onLoad: function () {
-    var self = this;
-    wx.getLocation({
-      type: 'gcj02',
-      success: function (res) {
-        var latitude = res.latitude;
-        var longitude = res.longitude;
-        server.getJSON('dwq/WxAppApi/location.php', {
-          latitude: latitude,
-          longitude: longitude
-        }, function (res) {
-          console.log(res)
-          if (res.data.status != -1) {
-            self.setData({
-              // address: res.data.result.address_component.street_number
-            });
-          } else {
-            self.setData({
-              address: '定位失败'
-            });
-          }
+    var self = this;    
+    //获取城市
+    server.postJSON('https://supereat.ca/api/city-list', {
+      country_id: 65,
+      language: "2",
+    }, function (res) {
+      console.log(res);
+      var response = res.data.response;
+      if (response.httpCode == 200) {
+        var addressString = [];
+        for (var index in response.city_list) {
+          addressString.push(response.city_list[index].city_name);
+        }
+        self.setData({
+          addressString: addressString,
+          city_list: response.city_list,
+          address: response.city_list[8].city_name,
         });
+        app.globalData.city_list = response.city_list;
+        console.log("------------成功-------------");
+      } else {
+        self.setData({
+          address: '获取失败'
+        });
+        console.log("------------失败-------------");
       }
-    });
+    })
+
+    //获取商店列表
     server.postJSON('https://supereat.ca/api/store_list', {
       city: 69,//71
-      location: 1032,//1035
+      location: server.getLocation(69),//1035
       category_ids: "",
       cuisine_ids: "",
       language: "2",
@@ -115,34 +104,44 @@ Page({
     })
   },
 
-  getJson: function () {
-    server.getJSON('https://supeat.ca/apiv1/getdata.php', {
-      areaid: 9
+  getStoreList: function () {
+    var self = this;
+    var city = this.data.city_list[this.data.index];
+    //获取商店列表
+    server.postJSON('https://supereat.ca/api/store_list', {
+      city: city.id,//71
+      location: server.getLocation(city.id),//1035
+      category_ids: "",
+      cuisine_ids: "",
+      language: "2",
+      sortby: "",
+      orderby: ""
     }, function (res) {
-      console.log(res)
-      if (res.statusCode == 200) {
-        var list = res.data;
+      console.log(res);
+      var response = res.data.response;
+      if (response.httpCode == 200) {
         var arry = [];
-        for (var i = 0; i < list.length; i++) {
-          var time = list[i].starttime;
-          var flag = self.time_range(time);
-          if (flag) {
-            arry.push('/imgs/index/openingcn.png');
-          } else {
-            arry.push('/imgs/index/closed_cn.png');
-          }
-        }
+        var open = [];
+        var close = [];
+        open = response.open_store_list;
+        close = response.closed_store_list;
+        arry = arry.concat(open);
+        arry = arry.concat(close);
         self.setData({
-          // imagepath: arry
+          shops: arry
         });
+
         self.setData({
-          // shops: res.data
+          banners: response.banners
         });
-        // app.globalData.shops = res.data;
+        app.globalData.shops = arry;
+        console.log("------------成功-------------" + arry.length);
       } else {
+        console.log("------------失败-------------");
       }
-    });
+    })
   },
+
   time_range: function (sourceTime) {
     var args = sourceTime.split("-");
     var beginTime = args[0];
@@ -237,6 +236,15 @@ Page({
     //   showCancel: false
     // });
 
-  }
+  },
+  bindPickerChange: function (e) {
+    this.setData({
+      index: e.detail.value,
+      address: this.data.addressString[e.detail.value],
+      shops: []
+    })
+    app.globalData.cityIndex = e.detail.value;
+    this.getStoreList();
+  },
 });
 

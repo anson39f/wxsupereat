@@ -1,27 +1,27 @@
 function __args() {
-	var setting = {};
-	if (arguments.length === 1 && typeof arguments[0] !== 'string') {
-		setting = arguments[0];
-	} else {
-		setting.url = arguments[0];
-		if (typeof arguments[1] === 'object') {
-			setting.data = arguments[1];
-			setting.success = arguments[2];
-		} else {
-			setting.success = arguments[1];
-		}
-	}
-	if (setting.url.indexOf('https://') !== 0) {
-		setting.url = 'https://test2.zuzuche.com/' + setting.url;
-	}
-	return setting;
+  var setting = {};
+  if (arguments.length === 1 && typeof arguments[0] !== 'string') {
+    setting = arguments[0];
+  } else {
+    setting.url = arguments[0];
+    if (typeof arguments[1] === 'object') {
+      setting.data = arguments[1];
+      setting.success = arguments[2];
+    } else {
+      setting.success = arguments[1];
+    }
+  }
+  if (setting.url.indexOf('https://') !== 0) {
+    setting.url = 'https://test2.zuzuche.com/' + setting.url;
+  }
+  return setting;
 }
 function __json(method, setting) {
-	setting.method = method;
-	setting.header = {
-		'content-type': 'application/json'
-	};
-	wx.request(setting);
+  setting.method = method;
+  setting.header = {
+    'content-type': 'application/json'
+  };
+  wx.request(setting);
 }
 
 function formatTime(date) {
@@ -32,7 +32,7 @@ function formatTime(date) {
   var hour = date.getHours()
   var minute = date.getMinutes()
   var second = date.getSeconds();
-  
+
   return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
 }
 
@@ -41,46 +41,44 @@ function formatNumber(n) {
   return n[1] ? n : '0' + n
 }
 
-function isEmptyObject(obj)
-{
-	if ((typeof obj === "object" && !(obj instanceof Array)) || ((obj instanceof Array) && obj.length <= 0 )){  
-		var isEmpty = true;  
-		for (var prop in obj){  
-			isEmpty = false;  
-			break;  
-		}
-		return isEmpty; 
-	}
-	return false; 
+function isEmptyObject(obj) {
+  if ((typeof obj === "object" && !(obj instanceof Array)) || ((obj instanceof Array) && obj.length <= 0)) {
+    var isEmpty = true;
+    for (var prop in obj) {
+      isEmpty = false;
+      break;
+    }
+    return isEmpty;
+  }
+  return false;
 }
 
-function filterEmptyObject(list){
-	var cartList = [];
-	for(var index in list)
-	{
-		if(!this.isEmptyObject(list[index])){
-			cartList.push(list[index])
-		}
-	}
-	return cartList;	
+function filterEmptyObject(list) {
+  var cartList = [];
+  for (var index in list) {
+    if (!this.isEmptyObject(list[index])) {
+      cartList.push(list[index])
+    }
+  }
+  return cartList;
 }
 
-function selectedShopDetail(shopId){
-	var app = getApp();
-	for (var i = 0; i < app.globalData.shops.length; ++i) {
+function selectedShopDetail(shopId) {
+  var app = getApp();
+  for (var i = 0; i < app.globalData.shops.length; ++i) {
     console.log("---globalData.shops----" + app.globalData.shops[i].outlets_id)
     if (app.globalData.shops[i].outlets_id == shopId) {
       console.log("---globalData.shops----" + app.globalData.shops[i].shoplogo);
-			return app.globalData.shops[i]
-		}
-	}
+      return app.globalData.shops[i]
+    }
+  }
 
-	return null;
+  return null;
 }
 
 //保留两位小数  
 //功能：将浮点数四舍五入，取小数点后2位 
-function toDecimal (x) {
+function toDecimal(x) {
   var f = parseFloat(x);
   if (isNaN(f)) {
     return;
@@ -89,16 +87,53 @@ function toDecimal (x) {
   return f;
 }
 
+
+//传cityid获取locationid
+function getLocation(id) {
+  var locationId = '';
+  switch (id) {
+    case 70:
+      locationId = 1033;
+      break;
+    case 69:
+      locationId = 1032;
+      break;
+    case 71:
+      locationId = 1035;
+      break;
+    case 72:
+      locationId = 1034;
+      break;
+    case 73:
+      locationId = 1036;
+      break;
+    case 74:
+      locationId = 1037;
+      break;
+    case 75:
+      locationId = 1038;
+      break;
+    case 76:
+      locationId = 1039;
+      break;
+    case 77:
+      locationId = 1040;
+      break;
+  }
+  return locationId;
+}
+
 module.exports = {
-	getJSON: function () {
-		__json('GET', __args.apply(this, arguments));
-	},
-	postJSON: function () {
-		__json('POST', __args.apply(this, arguments));
-	},
-	formatTime: formatTime,
-	isEmptyObject: isEmptyObject,
-	selectedShopDetail: selectedShopDetail,
-	filterEmptyObject: filterEmptyObject,
-  toDecimal: toDecimal
+  getJSON: function () {
+    __json('GET', __args.apply(this, arguments));
+  },
+  postJSON: function () {
+    __json('POST', __args.apply(this, arguments));
+  },
+  formatTime: formatTime,
+  isEmptyObject: isEmptyObject,
+  selectedShopDetail: selectedShopDetail,
+  filterEmptyObject: filterEmptyObject,
+  toDecimal: toDecimal,
+  getLocation: getLocation
 }

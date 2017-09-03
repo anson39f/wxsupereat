@@ -10,7 +10,7 @@
 </navigator>
 
 <scroll-view scroll-y>
-  <view class="address-view">
+  <view class="address-view" hidden="{{addressList.length == 0}}">
     <block wx:for="{{addressList}}" wx:for-item="address" wx:key="{{address_id}}">
       <view class="address-item">
         <view class="select-view">
@@ -18,10 +18,10 @@
         </view>
         <view class="content-view">
           <view class="top">
-            <text class="name">{{address.firstname}} {{address.lastname}}</text>
+            <text class="name">{{address.location_name}} {{address.country_name}}</text>
             <text class="phone">{{address.mobile}}</text>
           </view>
-          <text class="address">{{address.buzzcode}}{{address.address}}</text>
+          <text class="address">{{address.landmark}}  {{address.address}}</text>
         </view>
         <view class="edit-view">
           <image src="../../images/editAddress.png"></image>

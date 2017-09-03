@@ -1,4 +1,5 @@
 // add.js
+var server = require('../../utils/server');
 var app = getApp();
 Page({
 
@@ -6,7 +7,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    addressList: []
+    addressList: [],
+    type: '',
   },
 
   /**
@@ -14,15 +16,22 @@ Page({
    */
   onLoad: function (options) {
     var self = this;
-    wx.getStorage({
-      key: 'address',
-      success: function (res) {
-        console.log(res.data)
-        self.setData({
-          addressList: res.data
-        });
-      },
-    })
+    var type = '';
+    if (options.type) {
+      this.setData({
+        type: options.type
+      });
+      wx.getStorage({
+        key: 'address',
+        success: function (res) {
+          console.log(res.data)
+          self.setData({
+            addressList: res.data
+          });
+        },
+      })
+    }
+
   },
 
   /**
@@ -74,8 +83,9 @@ Page({
 
   },
   formSubmit: function (e) {
-    var token = app.globalData.token = response.token;
-    var user_id = app.globalData.user_id = response.user_id;
+    var self = this;
+    var token = app.globalData.token;
+    var user_id = app.globalData.user_id;
     console.log('form发生了submit事件，携带数据为：', e.detail.value);
     var res = e.detail.value;
     if (res.firstname == '' || res.lastname == '' || res.mobile == '' || res.address == '') {
@@ -100,27 +110,45 @@ Page({
         return;
       }
 
-      // var list = this.data.addressList;
-      // list.push(e.detail.value);
-      // wx.setStorage({
-      //   key: 'address',
-      //   data: list,
-      // })
+      var type = this.data.type;
+      if (type == 1) {
+        var list = this.data.addressList;
+        list.push(e.detail.value);
+        wx.setStorage({
+          key: 'address',
+          data: list,
+        })
 
+        wx.showToast({
+          title: '保存成功',
+          icon: 'success',
+          duration: 2000
+        })
+        setTimeout(function () {
+          wx.navigateBack({
+            // url: '../order/address'
+          })
+        }, 2000)
+        return;
+      }
+
+      var cityIndex = app.globalData.cityIndex;
+      var cityList = app.globalData.city_list;
+      var cityId = cityList[cityIndex].id;
       //保存地址
       server.postJSON('https://supereat.ca/api/store_address', {
-        landmark: "123",
-        country_id: "59",
-        latitude: 23.1148329732031,
-        user_id: "2",
-        longtitude: 113.3314157277346,
-        city_id: 53,
-        token: '',
-        address: "Tianhe Tianhe, Guangzhou, Guangdong China",
-        language: "1",
-        location_id: 71,
+        landmark: res.buzzcode,
+        country_id: "65",
+        latitude: app.globalData.latitude,
+        user_id: user_id,
+        longtitude: app.globalData.longitude,
+        city_id: cityId,
+        token: token,
+        address: res.address,
+        language: "2",
+        location_id: server.getLocation(cityId),
         address_type: "1",
-        flat_number: "123",
+        flat_number: res.roomnumber,
       }, function (res) {
         console.log(res);
         var response = res.data.response;
@@ -129,22 +157,22 @@ Page({
           app.globalData.user_id = response.user_id;
           self.setData({
           });
-          
+
           wx.showToast({
             title: '保存成功',
             icon: 'success',
             duration: 2000
           })
+          setTimeout(function () {
+            wx.navigateBack({
+              url: '../address/address'
+            })
+          }, 2000)
           console.log("------------成功-------------");
         } else {
 
           console.log("------------失败-------------");
         }
-      })
-
-
-      wx.navigateBack({
-        url: '../address/address'
       })
     }
   },
