@@ -9,6 +9,7 @@ Page({
     is_empty: false
   },
   onLoad: function (option) {
+    var self = this;
     if (option.pay) {
       var pay = option.pay;
       if (parseFloat(option.total) > 0)
@@ -25,7 +26,7 @@ Page({
       country_id: 65,
       language: app.globalData.language,
       user_id: app.globalData.user_id,
-      token: app.globalData.language,
+      token: app.globalData.token,
     }, function (res) {
       console.log(res);
       var response = res.data.response;
@@ -37,7 +38,6 @@ Page({
         self.setData({
           addressString: addressString,
           city_list: response.city_list,
-          address: response.city_list[8].city_name,
         });
         app.globalData.city_list = response.city_list;
         console.log("------------成功-------------");

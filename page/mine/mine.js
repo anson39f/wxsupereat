@@ -28,7 +28,7 @@ Page({
     console.log(this.data.userInfo);
   },
   order: function () {
-    if (!app.globalData.hasLogin) {
+    if (app.globalData.hasLogin) {
       wx.navigateTo({
         url: '/page/history/history'
       })

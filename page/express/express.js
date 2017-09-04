@@ -312,79 +312,81 @@ Page({
       return;
     }
 
-    wx.showToast({
+    // wx.showToast({
+    //   title: '正在为您提交订单',
+    //   icon: 'loading',
+    //   mask: true,
+    //   success: function () {
+    //   }
+    // })
+   
+    wx.showLoading({
       title: '正在为您提交订单',
-      icon: 'loading',
-      mask: true,
-      success: function () {
-
-        server.postJSON('https://supereat.ca/api/guest-offline-payment', {
-          language: app.globalData.language,
-          payment_array: JSON.stringify(pay),
-          mobile: list[index].mobile,
-          login_type: 3,
-          longitude: app.globalData.longitude,
-          latitude: app.globalData.latitude,
-          city_id: cityId,
-          guest_type: 1,
-          address: list[index].address,
-          first_name: list[index].firstname,
-          device_token: 1,
-          device_id: 1,
-          last_name: list[index].lastname,
-          email: list[index].email,
-          address_type: 1,
-          flat_number: list[index].roomnumber,
-          location_id: server.getLocation(cityId),
-          landmark: list[index].buzzcode
-        }, function (res) {
-          console.log(res);
-          var response = res.data.response;
-          if (response.httpCode == 200) {
-            wx.showModal({
-              showCancel: false,
-              title: '恭喜',
-              content: '订单发送成功！下订单过程顺利完成。',
-              success: function (res) {
-                if (res.confirm) {
-                  wx.removeStorageSync(self.data.orderList[0].shopId);
-                  wx.navigateBack();
-                }
-              }
-            })
-            // for(var index in cartList){
-            // 	if(typeof cartList[index] !== null){
-            // 		for(var key in cartList[index]){
-            // 			cartList[index]['pay'] = 1;
-            // 		}
-            // 	}								
-            // }
-            // wx.setStorage({
-            // 	key: 'orderList',
-            // 	data: {
-            // 		cartList: cartList,
-            // 		count: res.count,
-            // 		total: res.total,
-            // 	}
-            // });
-          } else {
-            console.log('下单失败');
-            wx.showModal({
-              showCancel: false,
-              title: '提交订单失败',
-              content: '请在重新授权后提交订单',
-              success: function (res) {
-                if (res.confirm) {
-                  app.getUserInfo();
-                }
-              }
-            })
+    });
+    server.postJSON('https://supereat.ca/api/guest-offline-payment', {
+      language: app.globalData.language,
+      payment_array: JSON.stringify(pay),
+      mobile: list[index].mobile,
+      login_type: 3,
+      longitude: app.globalData.longitude,
+      latitude: app.globalData.latitude,
+      city_id: cityId,
+      guest_type: 1,
+      address: list[index].address,
+      first_name: list[index].firstname,
+      device_token: 1,
+      device_id: 1,
+      last_name: list[index].lastname,
+      email: list[index].email,
+      address_type: 1,
+      flat_number: list[index].roomnumber,
+      location_id: server.getLocation(cityId),
+      landmark: list[index].buzzcode
+    }, function (res) {
+      console.log(res);
+      var response = res.data.response;
+      if (response.httpCode == 200) {
+        wx.showModal({
+          showCancel: false,
+          title: '恭喜',
+          content: '订单发送成功！下订单过程顺利完成。',
+          success: function (res) {
+            if (res.confirm) {
+              wx.removeStorageSync(self.data.orderList[0].shopId);
+              wx.navigateBack();
+            }
+          }
+        })
+        // for(var index in cartList){
+        // 	if(typeof cartList[index] !== null){
+        // 		for(var key in cartList[index]){
+        // 			cartList[index]['pay'] = 1;
+        // 		}
+        // 	}								
+        // }
+        // wx.setStorage({
+        // 	key: 'orderList',
+        // 	data: {
+        // 		cartList: cartList,
+        // 		count: res.count,
+        // 		total: res.total,
+        // 	}
+        // });
+      } else {
+        console.log('下单失败');
+        wx.showModal({
+          showCancel: false,
+          title: '提交订单失败',
+          content: '请在重新授权后提交订单',
+          success: function (res) {
+            if (res.confirm) {
+              app.getUserInfo();
+            }
           }
         })
       }
     })
+
   }
 
 });
-
-
