@@ -12,7 +12,7 @@ function __args() {
     }
   }
   if (setting.url.indexOf('https://') !== 0) {
-    setting.url = 'https://test2.zuzuche.com/' + setting.url;
+    // setting.url = '';
   }
   return setting;
 }

@@ -1,9 +1,8 @@
 <view class='container'>
-  <view class='header'>
+  <view class='header' hidden='{{true}}'>
     <view class='title'>我的订单</view>
   </view>
-
-
+  
   <view class="address">
     <picker bindchange="bindPickerChange" value="{{index}}" range="{{addressString}}">
       <view class="location">

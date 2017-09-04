@@ -1,9 +1,9 @@
 <view class='container'>
-  <view class='header'>
+  <view class='header' hidden='{{true}}'>
     <view class='title'>我的订单</view>
   </view>
 
-  <view class="address">
+  <view class="address" hidden='{{!is_empty}}'>
     <picker bindchange="bindPickerChange" value="{{index}}" range="{{addressString}}">
       <view class="location">
         <view class="lotit" hidden="{{addressString.length == 0 }}">Buzz Code:{{addressList[index].landmark}} Room:{{addressList[index].flat_number}} {{addressList[index].city_name}}</view>
@@ -19,7 +19,7 @@
   </view>
 
 
-  <scroll-view scroll-y='true' scroll-top="300">
+  <scroll-view scroll-y='true' scroll-top="300"  hidden='{{!is_empty}}'>
     <!-- <view wx:for="{{orderList}}" wx:key="name" class='order'>  -->
     <view class='order'>
       <view class='tip' hidden='{{pay>0}}'>(未提交)</view>

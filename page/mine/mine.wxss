@@ -31,7 +31,10 @@
   line-height: 3;
   border-bottom: 1px solid #efefef;
 }
-
+.section .line2 {
+  padding-right: 30rpx;
+  line-height: 3;
+}
 .section .line:last-child {
   border-bottom: none;
 }

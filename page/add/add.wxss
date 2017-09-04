@@ -16,23 +16,27 @@ page {
   height: 90rpx;
   line-height: 90rpx;
   padding: 0 20rpx;
-   overflow-x: hidden; 
+  overflow-x: hidden; 
+  flex-direction: row;
+  display: -webkit-flex;
 }
 
 .paylable {
-  width: 250rpx;
+  width: 200rpx;
   float: left;
   font-size: 30rpx;
   color: #4a4a4a;
 }
 
 .payinput {
-  float: left;
+  width: 500rpx;
+  float: right;
   height: 80rpx;
   font-size: 30rpx;
   color: #4a4a4a;
   font-family: "微软雅黑";
   line-height: 80rpx;
+  text-align: right;
 }
 
 .textarea {

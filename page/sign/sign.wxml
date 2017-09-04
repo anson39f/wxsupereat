@@ -5,33 +5,33 @@
     <!--账号-->
     <view class="inputView">
       <label class="loginLab">First Name</label>
-      <input class="inputText" placeholder="first name" bindinput="firstInput" />
+      <input class="inputText" placeholder="Ex: John" bindinput="firstInput" />
     </view>
     <view class="line"></view>
 
    
     <view class="inputView">
       <label class="loginLab">Last Name</label>
-      <input class="inputText" password="true" placeholder="last name" bindinput="lastInput" />
+      <input class="inputText" placeholder="Ex: Lastname" bindinput="lastInput" />
     </view>
     <view class="line"></view>
 
     <view class="inputView">
       <label class="loginLab">Email</label>
-      <input class="inputText" placeholder="email" bindinput="emailInput" />
+      <input class="inputText" placeholder="Ex: example@gmail.com" bindinput="emailInput" />
     </view>
     <view class="line"></view>
 
 
     <view class="inputView">
       <label class="loginLab">Password</label>
-      <input class="inputText" placeholder="password" bindinput="passwordInput" />
+      <input class="inputText" placeholder="Ex: password"  password="true" bindinput="passwordInput" />
     </view>
     <view class="line"></view>
 
     <view class="inputView">
       <label class="loginLab">Moblie Number</label>
-      <input class="inputText" placeholder="moblie number" bindinput="phoneInput" />
+      <input class="inputText" placeholder="Ex: 2269990001" bindinput="phoneInput" />
     </view>
     <view class="line"></view>
 

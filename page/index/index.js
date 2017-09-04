@@ -8,6 +8,7 @@ Page({
     addressString: [],
     city_list: [],
     banners: [],
+    language: '2',
     icons: [
       [
         {
@@ -41,11 +42,18 @@ Page({
 
   },
   onLoad: function () {
-    var self = this;    
+    var self = this;     
+    wx.showLoading({
+      title: '加载中',
+    });
+    
+    this.setData({
+      language: app.globalData.language,
+    });
     //获取城市
     server.postJSON('https://supereat.ca/api/city-list', {
       country_id: 65,
-      language: "2",
+      language: app.globalData.language,
     }, function (res) {
       console.log(res);
       var response = res.data.response;
@@ -67,7 +75,7 @@ Page({
         });
         console.log("------------失败-------------");
       }
-    })
+    })   
 
     //获取商店列表
     server.postJSON('https://supereat.ca/api/store_list', {
@@ -75,7 +83,7 @@ Page({
       location: server.getLocation(69),//1035
       category_ids: "",
       cuisine_ids: "",
-      language: "2",
+      language: app.globalData.language,
       sortby: "",
       orderby: ""
     }, function (res) {
@@ -97,14 +105,27 @@ Page({
           banners: response.banners
         });
         app.globalData.shops = arry;
+        wx.hideLoading();
         console.log("------------成功-------------" + arry.length);
       } else {
         console.log("------------失败-------------");
       }
     })
+    // wx.startPullDownRefresh({
+    //   success:function(){
+    //     self.onPullDownRefresh();
+    //   }
+    // })
+  },
+
+  onPullDownRefresh: function () {
+    this.getStoreList();
   },
 
   getStoreList: function () {
+    wx.showLoading({
+      title: '加载中',
+    });
     var self = this;
     var city = this.data.city_list[this.data.index];
     //获取商店列表
@@ -113,7 +134,7 @@ Page({
       location: server.getLocation(city.id),//1035
       category_ids: "",
       cuisine_ids: "",
-      language: "2",
+      language: app.globalData.language,
       sortby: "",
       orderby: ""
     }, function (res) {
@@ -135,6 +156,7 @@ Page({
           banners: response.banners
         });
         app.globalData.shops = arry;
+        wx.hideLoading();
         console.log("------------成功-------------" + arry.length);
       } else {
         console.log("------------失败-------------");
@@ -173,6 +195,13 @@ Page({
   },
 
   onShow: function () {
+    if (this.data.language != app.globalData.language) {
+      this.getStoreList();
+      this.setData({
+        language: app.globalData.language
+      })
+    }
+
   },
   onScroll: function (e) {
     if (e.detail.scrollTop > 100 && !this.data.scrollDown) {

@@ -2,7 +2,11 @@ var app = getApp();
 var server = require('../../utils/server');
 Page({
   data: {
-    email: app.globalData.email
+    email: app.globalData.email,
+    index: 0,
+    languageList: [
+      '中文', 'English'
+    ]
   },
   onLoad: function () {
     var that = this
@@ -24,9 +28,9 @@ Page({
     console.log(this.data.userInfo);
   },
   order: function () {
-    if (app.globalData.hasLogin) {
+    if (!app.globalData.hasLogin) {
       wx.navigateTo({
-        url: '/page/order/order'
+        url: '/page/history/history'
       })
     } else {
       wx.showModal({
@@ -38,14 +42,14 @@ Page({
               url: '/page/login/login'
             })
           } else if (res.cancel) {
-            
+
           }
         }
       })
     }
   },
 
-  address:function(){
+  address: function () {
     if (app.globalData.hasLogin) {
       wx.navigateTo({
         url: '/page/address/address'
@@ -65,6 +69,19 @@ Page({
         }
       })
     }
-  }
+  },
+  bindPickerChange: function (e) {
+    this.setData({
+      index: e.detail.value,
+    })
+    var l
+    if (e.detail.value == 0) {
+      l = 2;
+    } else {
+      l = e.detail.value;
+    }
+    app.globalData.language = l;
+    console.log('语言' + l);
+  },
 });
 

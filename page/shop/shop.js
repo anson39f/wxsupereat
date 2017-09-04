@@ -14,6 +14,10 @@ Page({
     defaultImg: 'http://global.zuzuche.com/assets/images/common/zzc-logo.png',
   },
   onLoad: function (options) {
+    wx.showLoading({
+      title: '加载中',
+    })
+    
     var shopId = options.id;
     // var shop = server.selectedShopDetail(shopId) // throw Exception
     var shop;
@@ -44,7 +48,7 @@ Page({
     // }
     console.log(this.data.localList, this.data.cartList)
   },
-  onShow: function () {
+  onShow: function () {    
     this.setData({
       classifySeleted: 0
     });
@@ -55,7 +59,7 @@ Page({
       city: '69',//71
       outlet_id: id,
       location: 1032,//1035
-      language: '2',
+      language: app.globalData.language,
       user_id: '',
       category_id: '',
       user_id: '',
@@ -75,6 +79,9 @@ Page({
           shopId: id,
           shop: response.outlet_detail
         })
+        wx.showLoading({
+          title: '加载失败',
+        })
         console.log("------------失败-------------");
       }
     })
@@ -84,7 +91,7 @@ Page({
     var self = this;
     server.postJSON('https://supereat.ca/api/store_product_mob', {
       location: 1032,//1035
-      language: '2',
+      language: app.globalData.language,
       user_id: '',
       category_id: id,
       outlet_id: this.data.shop.outlets_id,
@@ -101,6 +108,7 @@ Page({
           product: response.product_list
         })
         self.checkProductName(self.data.product);
+        wx.hideLoading();
         console.log(response.product_list);
         console.log("------------成功-------------");
       } else {

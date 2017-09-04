@@ -30,8 +30,11 @@ page{
 } 
   
 .inputView { 
+  flex-direction: row;
+  display:-webkit-flex;
  background-color: #fff; 
- line-height: 44px; 
+ line-height: 40px; 
+ align-items:center;
 } 
 /*输入框*/
 .nameImage, .keyImage { 
@@ -43,17 +46,20 @@ page{
 .loginLab { 
  margin: 15px 15px 15px 10px; 
  color: #545454; 
- font-size: 14px
+ width: 100rpx;
+ font-size: 14px;
 } 
 .inputText { 
  flex: block; 
  float: right; 
  text-align: right; 
  margin-right: 22px; 
- margin-top: 11px; 
  /* color: #cccccc;  */
  color: #545454; 
- font-size: 14px
+ font-size: 14px;
+ width: 500rpx;
+ height: 100%;
+ margin: 15px 0px 15px 0px; 
 } 
   
 .line { 

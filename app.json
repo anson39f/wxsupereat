@@ -9,14 +9,15 @@
     "page/add/add",
     "page/login/login",
     "page/sign/sign",
-    "page/express/express"
+    "page/express/express",
+    "page/history/history"
   ],
   "window": {
     "navigationBarBackgroundColor": "#feb70f",
     "navigationBarTextStyle": "white",
     "backgroundColor": "#efefef",
     "backgroundTextStyle": "dark",
-    "navigationBarTitleText": "我的第一个微信小程序"
+    "navigationBarTitleText": "SuperEat"
   },
   "tabBar": {
     "color": "#878787",

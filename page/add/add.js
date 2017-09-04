@@ -145,7 +145,7 @@ Page({
         city_id: cityId,
         token: token,
         address: res.address,
-        language: "2",
+        language: app.globalData.language,
         location_id: server.getLocation(cityId),
         address_type: "1",
         flat_number: res.roomnumber,

@@ -163,6 +163,9 @@ Page({
   },
 
   onShow: function () {
+    wx.showLoading({
+      title: '加载中',
+    });
     var self = this;
     var address = [];
     var option = this.data.option;
@@ -180,6 +183,27 @@ Page({
           addressList: list
         })
         self.getDistance(option);
+      },
+      fail: function (res) {
+        wx.hideLoading();
+
+        wx.showModal({
+          title: '提示',
+          content: '请先添加收货信息',
+          cancelText: '取消',
+          confirmText: '添加',
+          success: function (res) {
+            if (res.confirm) {
+              wx.navigateTo({
+                url: '/page/add/add?type=1'
+              })
+            } else if (res.cancel) {
+
+            }
+          }
+        })
+        return;
+
       },
     })
 
@@ -267,8 +291,27 @@ Page({
     var cityList = app.globalData.city_list;
     var cityId = cityList[cityIndex].id;
     var pay = this.data.payment_array;
-    var list = this.data.addressList;
     var index = this.data.index;
+    var list = this.data.addressList;
+    if (list.length == 0) {
+      wx.showModal({
+        title: '提示',
+        content: '请先添加收货信息',
+        cancelText: '取消',
+        confirmText: '添加',
+        success: function (res) {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '/page/add/add?type=1'
+            })
+          } else if (res.cancel) {
+
+          }
+        }
+      })
+      return;
+    }
+
     wx.showToast({
       title: '正在为您提交订单',
       icon: 'loading',
@@ -276,7 +319,7 @@ Page({
       success: function () {
 
         server.postJSON('https://supereat.ca/api/guest-offline-payment', {
-          language: 2,
+          language: app.globalData.language,
           payment_array: JSON.stringify(pay),
           mobile: list[index].mobile,
           login_type: 3,

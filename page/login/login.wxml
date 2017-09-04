@@ -29,10 +29,5 @@
     <view class="expressBtnView" hidden="{{false}}">
       <button class="loginBtn" type="default" size="{{primarySize}}" loading="{{loading}}" plain="{{plain}}" disabled="{{disabled}}" bindtap="sign">注册</button>
     </view>
-
-    <!--按钮-->
-    <view class="expressBtnView">
-      <button class="loginBtn" type="default" size="{{primarySize}}" loading="{{loading}}" plain="{{plain}}" disabled="{{disabled}}" bindtap="login">快速结账</button>
-    </view>
   </view>
 </view>

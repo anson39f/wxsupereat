@@ -268,7 +268,7 @@ Page({
     server.postJSON('https://supereat.ca/api/get_address', {
       user_id: user_id,
       token: token,
-      language: "2",
+      language: app.globalData.language,
     }, function (res) {
       console.log(res);
       var response = res.data.response;
@@ -302,7 +302,7 @@ Page({
       mask: true,
       success: function () {
         server.postJSON('https://supereat.ca/api/offline_payment', {
-          language: 2,
+          language: app.globalData.language,
           user_id: app.globalData.user_id,
           token: app.globalData.token,
           payment_array: JSON.stringify(pay)

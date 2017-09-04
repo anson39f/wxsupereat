@@ -46,7 +46,7 @@ Page({
     server.postJSON('https://supereat.ca/api/get_address', {
       user_id: user_id,
       token: token,
-      language: "2",
+      language: app.globalData.language,
     }, function (res) {
       console.log(res);
       var response = res.data.response;

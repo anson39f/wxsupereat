@@ -5,7 +5,7 @@
     <view class="payli">
       <view class="paylable">First name</view>
       <view>
-        <input name="firstname" type="text" class="payinput" placeholder="" />
+        <input name="firstname" type="text" class="payinput" placeholder="Ex: John" />
       </view>
     </view>
 
@@ -13,7 +13,7 @@
     <view class="payli">
       <view class="paylable">Last name</view>
       <view>
-        <input name="lastname" type="text" class="payinput" placeholder="" />
+        <input name="lastname" type="text" class="payinput" placeholder="Ex: Lastname" />
       </view>
     </view>
 
@@ -21,7 +21,7 @@
     <view class="payli">
       <view class="paylable" style="">Mobile</view>
       <view>
-        <input name="mobile" type="number" class="payinput" placeholder=""/>
+        <input name="mobile" type="number" class="payinput" placeholder="Ex: 2269990001"/>
       </view>
     </view>
 
@@ -29,29 +29,29 @@
     <view class="payli">
       <view class="paylable">Email</view>
       <view>
-        <input name="email" type="text" class="payinput" placeholder=""/>
+        <input name="email" type="text" class="payinput" placeholder="Ex: example@gmail.com"/>
       </view>
     </view>
 
     <!--房间号-->
     <view class="payli">
-      <view class="paylable">Room Number</view>
+      <view class="paylable">Room No.</view>
       <view>
-        <input name="roomnumber" type="tel" class="payinput" placeholder="" />
+        <input name="roomnumber" type="text" class="payinput" placeholder="Ex :301" />
       </view>
     </view>
     <!--门铃号-->
     <view class="payli">
       <view class="paylable">Buzz Code</view>
       <view>
-        <input name="buzzcode" type="tel" class="payinput" placeholder="" />
+        <input name="buzzcode" type="text" class="payinput" placeholder="Ex: 301" />
       </view>
     </view>
     <!--详细地址-->
     <view class="payli0">
       <view class="paylable0">Address</view>
       <view>
-        <textarea class="textarea" name="address"></textarea>
+        <textarea class="textarea" name="address" placeholder="Ex: 203 Lester St, Toronto ON"></textarea>
       </view>
       <view class="clear"></view>
     </view>

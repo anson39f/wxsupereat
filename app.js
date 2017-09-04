@@ -14,6 +14,7 @@ App({
     email: '',
     latitude:'',
     longitude:'',
+    language:2,
   },
   onLaunch: function () {
     console.log('App Launch')
@@ -75,17 +76,7 @@ App({
     var self = this;
     wx.getUserInfo({
       success: function (res) {
-        self.globalData.userInfo = res.userInfo;
-        server.getJSON('dwq/WxAppApi/checkSignature.php', {
-          rd_session: self.rd_session,
-          signature: res.signature,
-          raw_data: res.rawData
-        }, function (res) {
-          if (!res.data.is_pass) {
-            // TODO:验证有误处理
-            self.login();
-          }
-        });
+        
       }
     });
   }

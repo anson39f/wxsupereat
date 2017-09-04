@@ -24,6 +24,9 @@ page{
 .inputView { 
  background-color: #fff; 
  line-height: 44px; 
+ display:-webkit-flex;
+ flex-direction: row;
+ align-items: center;
 } 
 /*输入框*/
 .nameImage, .keyImage { 
@@ -33,24 +36,25 @@ page{
 } 
   
 .loginLab { 
- margin: 15px 15px 15px 10px; 
+  margin-left: 10px;
  color: #545454; 
- font-size: 36rpx;
+ font-size: 32rpx;
  font-weight: 300;
- /* font-family:'黑体';  */
+ width: 250rpx;
 } 
 .codeLabel{
   padding-bottom: 10px;
 }
 .inputText { 
+ width: 450rpx;
  flex: block; 
  float: right; 
+ height: 100%;
  text-align: right; 
- margin-right: 22px; 
- margin-top: 11px; 
+ margin-right: 10px; 
  color: #545454; 
  /* color: #cccccc;  */
- font-size: 14px
+ font-size: 14px;
 } 
   
 .line { 

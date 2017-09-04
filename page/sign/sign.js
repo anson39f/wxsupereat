@@ -121,7 +121,7 @@ Page({
     var user_id = this.data.user_id;
 
     server.postJSON('https://supereat.ca/api/send-otp-new-mobile', {
-      language: "2",
+      language: app.globalData.language,
       phone: phone,
       user_id: user_id,
     }, function (res) {
