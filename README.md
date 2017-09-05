@@ -330,3 +330,30 @@ first_name=ggfg&last_name=lllllp&email=edf2%40126.com&password=1374747fhdh&phone
 /api/orders 
 
 user_id=2&language=1&token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjIwMDAwMDAwMDAwMCwic3ViIjoyLCJpc3MiOiJodHRwOlwvXC9mb29kLm9kZGFwcHouY29tXC9hcGlcL2xvZ2luX3VzZXIiLCJpYXQiOjE1MDQxNzE1MzEsIm5iZiI6MTUwNDE3MTUzMSwianRpIjoiVVZ3ZjVUbm1ZMjV6ZXMyQiJ9.VpvwRJsxK51horlSqlp_5k_zqTqGu5cGrjH5GtAiwbIHTTP/1.0 200 OK
+
+
+  <view class="drawer_title">选取规格</view> 
+  <view class="drawer_content"> 
+    <view class="top grid"> 
+      <label class="title col-0">标题</label> 
+      <input class="input_base input_h30 col-1" name="rName" value="可自行定义内容"></input> 
+    </view> 
+    <view class="top grid"> 
+      <label class="title col-0">标题</label> 
+      <input class="input_base input_h30 col-1" name="mobile" value="110"></input> 
+    </view> 
+    <view class="top grid"> 
+      <label class="title col-0">标题</label> 
+      <input class="input_base input_h30 col-1" name="phone" value="拒绝伸手党"></input> 
+    </view> 
+    <view class="top grid"> 
+      <label class="title col-0">标题</label> 
+      <input class="input_base input_h30 col-1" name="Email" value="仅供学习使用"></input> 
+    </view> 
+    <view class="top bottom grid"> 
+      <label class="title col-0">备注</label> 
+      <input class="input_base input_h30 col-1" name="bz"></input> 
+    </view> 
+  </view> 
+  <view class="btn_ok" bindtap="powerDrawer" data-statu="close">确定</view> 
+</view>

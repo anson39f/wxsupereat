@@ -7,7 +7,7 @@ Page({
     email: '',
     password: '',
     phone: '',
-    showModalStatus: false,
+    showModalStatus: true,
     hiddenmodalput: true,
     code: '',
   },

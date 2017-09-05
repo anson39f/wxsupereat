@@ -55,7 +55,7 @@
 <view animation="{{animationData}}" class="drawer_box" wx:if="{{showModalStatus}}"> 
    
   <!--drawer content-->  
-  <view class="drawer_title">弹窗标题</view> 
+  <view class="drawer_title">选取规格</view> 
   <view class="drawer_content"> 
     <view class="top grid"> 
       <label class="title col-0">标题</label> 
