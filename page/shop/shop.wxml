@@ -37,7 +37,8 @@
             <view class="dish-item-count-text dish-item-tab">
               <text hidden="{{menu.count == 0}}">{{menu.count}}</text>
             </view>
-            <view class="dish-item-count-plus" bindtap="tapAddCart" data-price="{{menu.discount_price}}" data-name="{{menu.product_name}}" data-pic="{{menu.product_image}}" data-productId="{{menu.product_id}}">
+            <view class="dish-item-count-plus" bindtap="tapAddCart" data-price="{{menu.discount_price}}" data-name="{{menu.product_name}}" data-pic="{{menu.product_image}} 
+            data-index="{{index}}" data-productId="{{menu.product_id}}">
               <image class="image" src="/imgs/shop/mealBoxAdd.png" />
             </view>
           </view>
@@ -76,33 +77,40 @@
   </view>
 </view>
 
-
+<form bindsubmit="formSubmit" >
 <!--使用animation属性指定需要执行的动画-->  
 <view animation="{{animationData}}" class="drawer_box" wx:if="{{showModalStatus}}">    
   <!--drawer content-->  
   <view class="drawer_title">选取规格</view> 
   <view class="drawer_content"> 
    <scroll-view class="goods-container" scroll-y="true">   
-    	<view wx:for="{{product[2].ingred_type_list}}" wx:for-item="classify" wx:key="id" id="{{classify.id}}">
-				<view class="title">name:{{classify.ingredient_type_name}}</view>
-        <radio-group>
-				<view class="goods" wx:for="{{classify.ingredient_list}}" wx:for-item="menu" wx:key="name">
+    	<view wx:for="{{selectProduct.ingred_type_list}}" wx:for-item="classify" wx:key="id" id="{{classify.id}}">
+				<view class="type">{{classify.ingredient_type_name}} {{classify.required == 1?'(Required)':'(Optional)'}}</view>
+         <!--单选  -->
+        <radio-group name='radio-group{{index}}' hidden='{{classify.type == 2}}'>
+				<view class="ingredient" wx:for="{{classify.ingredient_list}}" wx:for-item="menu" wx:key="name">
 					<!-- <view class="name ellipsis">{{menu.ingredient_name}}</view>					
 					<view class="price">${{menu.price}}</view>			 -->
           
-          <label><radio value="radio1"/>{{menu.ingredient_name}}</label>
+          <!-- <label hidden='{{classify.type == 2}}'><radio value="radio1"/>{{menu.ingredient_name}}</label> -->
+          <label ><checkbox value="{{menu.ingredient_name}}" name="checkbox"/>{{menu.ingredient_name}}  {{menu.price == 0?'':'(+$'+ menu.price+')'}}</label>
           </view>
 				</radio-group>
+
+         <!--多选  --> 
+         <checkbox-group name='checkbox-group{{index}}'>
+         <view class="ingredient" wx:for="{{classify.ingredient_list}}" wx:for-item="menu" wx:key="name" hidden='{{classify.type == 1}}'>					
+          <label ><checkbox value="{{menu.ingredient_name}}" name="checkbox"/>{{menu.ingredient_name}}  {{menu.price == 0?'':'(+$'+ menu.price+')'}}</label>
+        </view>		
+         
+         </checkbox-group>        
+						
 			</view>
     </scroll-view>
   </view> 
-  <view class="btn_ok" bindtap="powerDrawer" data-statu="close">确定</view> 
+  <view class="btn_ok" bindtap="powerDrawer" formType="submit" data-statu="close">确定</view> 
+  <button class="btn_ok" formType="submit">确定</button>
 </view>
+</form>
 
-<!-- <view class="page-section page-section-gap">
-        <view class="page-section-title">checkbox</view>
-        <checkbox-group name="checkbox">
-          <label><checkbox value="checkbox1"/>选项一</label>
-          <label><checkbox value="checkbox2"/>选项二</label>
-        </checkbox-group>
-      </view> -->
+<view class='drawer_screen' wx:if="{{showModalStatus}}"></view>

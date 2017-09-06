@@ -12,13 +12,13 @@ Page({
     showCartDetail: false,
     containerHeight: 920,
     defaultImg: 'http://global.zuzuche.com/assets/images/common/zzc-logo.png',
-    showModalStatus: true,
+    showModalStatus: false,
   },
   onLoad: function (options) {
     wx.showLoading({
       title: '加载中',
     })
-    
+
     var shopId = options.id;
     // var shop = server.selectedShopDetail(shopId) // throw Exception
     var shop;
@@ -49,7 +49,7 @@ Page({
     // }
     console.log(this.data.localList, this.data.cartList)
   },
-  onShow: function () {    
+  onShow: function () {
     this.setData({
       classifySeleted: 0
     });
@@ -153,6 +153,17 @@ Page({
     return false;
   },
   tapAddCart: function (e) {
+    var index = e.currentTarget.dataset.index;
+    var product = this.data.product;
+    this.setData({
+      selectProduct: product[index],
+    })
+    if (product[index].ingred_type_list.length > 0) {
+      this.powerDrawer();
+      return;
+    }
+
+
     var price = parseFloat(e.currentTarget.dataset.price);
     // var price = e.currentTarget.dataset.price;
     var name = e.currentTarget.dataset.name;
@@ -325,6 +336,29 @@ Page({
   },
 
 
+  formSubmit: function (e) {
+    console.log('form发生了submit事件，携带数据为：', e.detail.value);
+    var selectProduct = this.data.selectProduct;
+    var res = e.detail.value;
+    for (var index in selectProduct.ingred_type_list) {
+      var checkbox = 'checkbox-group' + index;
+      var radio = 'radio-group' + index;
+      console.log('name：' + checkbox + ' : ' + radio);
+
+      console.log(res[checkbox]);
+      console.log(res[radio]);
+      if (res[checkbox].length > 0) {
+        for (var i in res.checkbox) {
+          console.log('多选：' + res[checkbox][i]);
+        }
+      }
+      if (res[radio] != ''){
+        console.log('单选：' + res[radio]);
+      }
+    }
+
+  },
+
   //提交订单
   submit: function (e) {
 
@@ -371,7 +405,12 @@ Page({
 
   //弹框
   powerDrawer: function () {
-    this.util('open')
+    if (this.data.showModalStatus) {
+      this.util('close');
+    } else {
+      this.util('open');
+    }
+
   },
   util: function (currentStatu) {
     /* 动画部分 */

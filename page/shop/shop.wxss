@@ -445,14 +445,14 @@ page {
 /*content*/ 
 .drawer_box { 
   width: 650rpx;  
-  overflow: hidden;  
+  overflow: hidden;   
   position: fixed;  
   top: 50%;  
   left: 0;  
   z-index: 1001;  
   background: #FAFAFA;  
-  margin: -150px 50rpx 0 50rpx;  
-  border-radius: 3px;  
+  margin: -200px 50rpx 0 50rpx;  
+  border-radius: 6px;  
 } 
    
 .drawer_title{ 
@@ -461,7 +461,7 @@ page {
   text-align: center;  
 } 
 .drawer_content { 
-  height: 210px;  
+  height: 250px;  
   overflow-y: scroll; /*超出父盒子高度可滚动*/ 
 } 
    
@@ -487,7 +487,26 @@ page {
     display: inline-block;  
     font: 300 28rpx/30px "microsoft yahei";  
 } 
-   
+
+.type { 
+    height: 30px;  
+    line-height: 20px;  
+    padding-top: 5px;
+    width: 100%;
+    padding-left: 10px;  
+    text-align: left;  
+    display: inline-block;  
+    background:#F8F8F8;
+    font: 300 30rpx "microsoft yahei";  
+} 
+
+.ingredient {
+  position: relative;
+  padding: 10rpx 10rpx;
+  font-size: 26rpx;
+  line-height: 20rpx;
+  border-bottom: 0.5px solid #f7f7f7;
+}
 .input_base { 
     border: 2rpx solid #ccc;  
     padding-left: 10rpx;  
