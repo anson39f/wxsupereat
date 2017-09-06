@@ -93,14 +93,14 @@
 					<view class="price">${{menu.price}}</view>			 -->
           
           <!-- <label hidden='{{classify.type == 2}}'><radio value="radio1"/>{{menu.ingredient_name}}</label> -->
-          <label ><checkbox value="{{menu.ingredient_name}}" name="checkbox"/>{{menu.ingredient_name}}  {{menu.price == 0?'':'(+$'+ menu.price+')'}}</label>
+          <label ><checkbox value="{{menu.ingredient_id+'@'+menu.ingredient_name+'@'+menu.price}}" name="checkbox"/>{{menu.ingredient_name}}  {{menu.price == 0?'':'(+$'+ menu.price+')'}}</label>
           </view>
 				</radio-group>
 
          <!--多选  --> 
          <checkbox-group name='checkbox-group{{index}}'>
          <view class="ingredient" wx:for="{{classify.ingredient_list}}" wx:for-item="menu" wx:key="name" hidden='{{classify.type == 1}}'>					
-          <label ><checkbox value="{{menu.ingredient_name}}" name="checkbox"/>{{menu.ingredient_name}}  {{menu.price == 0?'':'(+$'+ menu.price+')'}}</label>
+          <label ><checkbox value="{{menu.ingredient_id+'@'+menu.ingredient_name+'@'+menu.price}}" name="checkbox"/>{{menu.ingredient_name}}  {{menu.price == 0?'':'(+$'+ menu.price+')'}}</label>
         </view>		
          
          </checkbox-group>        

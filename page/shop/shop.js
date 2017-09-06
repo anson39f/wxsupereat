@@ -13,6 +13,13 @@ Page({
     containerHeight: 920,
     defaultImg: 'http://global.zuzuche.com/assets/images/common/zzc-logo.png',
     showModalStatus: false,
+    ingredients: {
+      "0": {
+        "ingredient_id": 21,
+        "price": "15"
+      },
+      "ingredient_name": "Ground Beef"
+    }
   },
   onLoad: function (options) {
     wx.showLoading({
@@ -152,17 +159,16 @@ Page({
     }
     return false;
   },
-  tapAddCart: function (e) {
-    var index = e.currentTarget.dataset.index;
-    var product = this.data.product;
-    this.setData({
-      selectProduct: product[index],
-    })
-    if (product[index].ingred_type_list.length > 0) {
-      this.powerDrawer();
-      return;
-    }
 
+  tapAddCart: function (e) {
+    var selectIndex = e.currentTarget.dataset.index;
+    var productList = this.data.product;
+    this.setData({
+      selectProduct: productList[selectIndex],
+    })
+    if (productList[selectIndex].ingred_type_list.length > 0) {
+      this.powerDrawer();
+    }
 
     var price = parseFloat(e.currentTarget.dataset.price);
     // var price = e.currentTarget.dataset.price;
@@ -173,7 +179,7 @@ Page({
     var list = this.data.cartList;
     var product;
     var index;
-    if (index = this.checkOrderSame(name)) {
+    if (index = this.checkOrderSame(name) && productList[selectIndex].ingred_type_list.length == 0) {
       product = list[index];
       var num = product.num;
       product.num = num + 1;
@@ -188,6 +194,13 @@ Page({
         "shopName": this.data.shop.outlet_name,
         "pay": this.toDecimal(price),
         "productId": productId,
+        "ingredients": {},
+      }
+      if (productList[selectIndex].ingred_type_list.length > 0) {
+        this.setData({
+          productItem: product
+        });
+        return;
       }
       list.push(product);
       console.log('购物车：');
@@ -335,28 +348,47 @@ Page({
     });
   },
 
-
   formSubmit: function (e) {
     console.log('form发生了submit事件，携带数据为：', e.detail.value);
     var selectProduct = this.data.selectProduct;
     var res = e.detail.value;
+    var ingredients = this.data.ingredients;
+    var item = {};
+    var list = [];
     for (var index in selectProduct.ingred_type_list) {
       var checkbox = 'checkbox-group' + index;
       var radio = 'radio-group' + index;
-      console.log('name：' + checkbox + ' : ' + radio);
 
       console.log(res[checkbox]);
       console.log(res[radio]);
       if (res[checkbox].length > 0) {
-        for (var i in res.checkbox) {
-          console.log('多选：' + res[checkbox][i]);
+        for (var i in res[checkbox]) {
+          list.push(res[checkbox][i]);
         }
       }
-      if (res[radio] != ''){
-        console.log('单选：' + res[radio]);
+      if (res[radio] != '') {
+        list.push(res[radio]);
       }
     }
-
+    console.log('选项规格数组');
+    console.log(list);
+    var nameString = '';
+    for (var index in list) {
+      var subItem = {};
+      var itemList = list[index].split('@');
+      subItem.ingredient_id = itemList[0];
+      subItem.price = itemList[2];
+      item[index] = subItem;
+      nameString += itemList[1] + ',';
+    }
+    nameString = nameString.substring(0, nameString.length - 1);
+    item.ingredient_name = nameString;
+    console.log('ingredients对象：');
+    console.log(item);
+    var productItem = this.data.productItem;
+    productItem.ingredients = item;
+    console.log('对象：');
+    console.log(productItem);
   },
 
   //提交订单
