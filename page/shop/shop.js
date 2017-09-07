@@ -130,6 +130,7 @@ Page({
     })
   },
 
+  // 设置菜单的显示的数量
   checkProductName: function (product) {
     var list = this.data.cartList;
     if (list.lenght == 0 || product.lenght == 0) {
@@ -160,30 +161,39 @@ Page({
     return false;
   },
 
-  tapAddCart: function (e) {
-    var selectIndex = e.currentTarget.dataset.index;
-    var productList = this.data.product;
-    this.setData({
-      selectProduct: productList[selectIndex],
-    })
-    if (productList[selectIndex].ingred_type_list.length > 0) {
-      this.powerDrawer();
+  checkProductId: function (id) {
+    var list = this.data.product;
+    for (var index in list) {
+      if (list[index].product_id === id) {
+        if (index == 'undefined') {
+          return false;
+        }
+        return index;
+      }
     }
-
+    return false;
+  },
+  tapAddCart: function (e) {
     var price = parseFloat(e.currentTarget.dataset.price);
-    // var price = e.currentTarget.dataset.price;
     var name = e.currentTarget.dataset.name;
     var img = e.currentTarget.dataset.pic;
     var productId = e.currentTarget.dataset.productid;
     console.log('productId:' + productId);
     var list = this.data.cartList;
+    var productList = this.data.product;
+    var selectIndex = this.checkProductId(productId);
+    this.setData({
+      selectProduct: productList[selectIndex],
+    })
+
     var product;
     var index;
-    if (index = this.checkOrderSame(name) && productList[selectIndex].ingred_type_list.length == 0) {
+    if ((index = this.checkOrderSame(name))) {
       product = list[index];
       var num = product.num;
+      var price = product.pay / product.num;
       product.num = num + 1;
-      product.pay = this.toDecimal(product.price * product.num);
+      product.pay = this.toDecimal(price * product.num);
     } else {
       product = {
         "price": price,
@@ -200,6 +210,7 @@ Page({
         this.setData({
           productItem: product
         });
+        this.powerDrawer();
         return;
       }
       list.push(product);
@@ -223,8 +234,9 @@ Page({
       var num = list[index].num
       if (num > 1) {
         product = list[index];
+        var price = product.pay / product.num;
         list[index].num = num - 1;
-        product.pay = this.toDecimal(product.price * product.num);
+        product.pay = this.toDecimal(price * product.num);
         this.checkProductName(this.data.product);
       } else {
         product = list[index];
@@ -242,15 +254,21 @@ Page({
   },
   addCount: function (order) {
     var count = this.data.cart.count + 1;
-    var total = this.data.cart.total + order.price;
+    var total = this.data.cart.total + order.pay / order.num;
     // total = Math.round(parseFloat(total));
     total = this.toDecimal(total);
     this.saveCart(count, total);
     this.checkProductName(this.data.product);
   },
   deduceCount: function (product) {
-    var count = this.data.cart.count - 1,
-      total = this.data.cart.total - product.price;
+    var count = this.data.cart.count - 1;
+    var price;
+    if (product.num == 0) {
+      price = product.pay
+    } else {
+      price = product.pay / product.num;
+    }
+    var total = this.data.cart.total - price;
     // total = Math.round(parseFloat(total));
     total = this.toDecimal(total);
     this.saveCart(count, total);
@@ -355,7 +373,8 @@ Page({
     var ingredients = this.data.ingredients;
     var item = {};
     var list = [];
-    for (var index in selectProduct.ingred_type_list) {
+    var type_list = selectProduct.ingred_type_list;
+    for (var index in type_list) {
       var checkbox = 'checkbox-group' + index;
       var radio = 'radio-group' + index;
 
@@ -365,19 +384,29 @@ Page({
         for (var i in res[checkbox]) {
           list.push(res[checkbox][i]);
         }
+      } else {
+        if (type_list[index].required == 1 && res[radio] == '') {
+          wx.showToast({
+            title: 'Select all required fields.',
+          })
+          return;
+        }
       }
       if (res[radio] != '') {
         list.push(res[radio]);
       }
     }
+
     console.log('选项规格数组');
     console.log(list);
     var nameString = '';
+    var sumPrice = 0;
     for (var index in list) {
       var subItem = {};
       var itemList = list[index].split('@');
       subItem.ingredient_id = itemList[0];
       subItem.price = itemList[2];
+      sumPrice += parseFloat(itemList[2]);
       item[index] = subItem;
       nameString += itemList[1] + ',';
     }
@@ -387,13 +416,43 @@ Page({
     console.log(item);
     var productItem = this.data.productItem;
     productItem.ingredients = item;
-    console.log('对象：');
+    productItem.pay = sumPrice + productItem.price;
+    productItem.name = productItem.name + '(' + nameString + ')';
+    console.log('productItem对象：');
     console.log(productItem);
+    var cartList = this.data.cartList;
+
+    var product;
+    var index;
+    if ((index = this.checkOrderSame(productItem.name))) {
+      product = cartList[index];
+      var num = product.num;
+      var price = product.pay / product.num;
+      product.num = num + 1;
+      product.pay = this.toDecimal(price * product.num);
+    } else {
+      cartList.push(productItem);
+    }
+
+    this.setData({
+      cartList: cartList,
+      localList: server.filterEmptyObject(list)
+    });
+    this.checkProductName(this.data.product);
+    this.addCount(productItem);
+    this.powerDrawer();
   },
 
   //提交订单
   submit: function (e) {
-
+    if (this.data.shop.open_restaurant != 1) {
+      wx.showModal({
+        title: '提示',
+        content: '该商店已打烊！',
+        showCancel: false
+      });
+      return;
+    }
     var shop = this.data.shop;
     var total = this.data.cart.total;
     var shopId = this.data.shopId;

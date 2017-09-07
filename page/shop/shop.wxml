@@ -108,9 +108,8 @@
 			</view>
     </scroll-view>
   </view> 
-  <view class="btn_ok" bindtap="powerDrawer" formType="submit" data-statu="close">确定</view> 
-  <button class="btn_ok" formType="submit">确定</button>
+  <button class="btn_ok" formType="submit" data-statu="close">确定</button>
 </view>
 </form>
 
-<view class='drawer_screen' wx:if="{{showModalStatus}}"></view>
+<view class='drawer_screen' wx:if="{{showModalStatus}}" bindtap="powerDrawer"></view>

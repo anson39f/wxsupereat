@@ -137,7 +137,7 @@ Page({
       item.product_id = cartList[index].productId;
       item.quantity = cartList[index].num;
       item.discount_price = cartList[index].price;
-      item.ingredients = {};
+      item.ingredients = cartList[index].ingredients;
       item.item_offer = 0;
       payment_array.items.push(item);
     };
