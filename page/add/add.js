@@ -8,6 +8,7 @@ Page({
    */
   data: {
     addressList: [],
+    address: '',
     type: '',
   },
 
@@ -81,6 +82,11 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+  focusInputEvent: function () {
+    wx.navigateTo({
+      url:'../addressSearch/addressSearch'
+    })
   },
   formSubmit: function (e) {
     var self = this;

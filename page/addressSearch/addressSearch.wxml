@@ -11,7 +11,7 @@
 
         <scroll-view scroll-y="true">
             <view class="shop" wx:for="{{predictions}}" wx:key="id">
-                <view class='description'>{{predictions[index].description}}</view>
+                <view class='description' bindtap="select" data-address="{{predictions[index].description}}">{{predictions[index].description}}</view>
             </view>            
         </scroll-view>
     </view>
