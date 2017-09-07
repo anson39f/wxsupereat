@@ -19,7 +19,7 @@
   </view>
 
   <view class="section">
-    <view class="line judgement">帮助与反馈</view>
+    <navigator url='../addressSearch/addressSearch'><view class="line judgement">帮助与反馈</view></navigator>
   </view>
 
   <!--按钮-->
