@@ -19,7 +19,7 @@
   </view>
 
   <view class="section">
-    <view class="line judgement">帮助与反馈</view>
+    <view class="line judgement" bindtap="help">帮助与反馈</view>
   </view>
 
   <!--按钮-->

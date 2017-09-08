@@ -45,7 +45,7 @@
       <view class='right-container'>运费：${{transportation}}</view>
       <view class='right-container'>合计：${{total}}</view>
       <view class='right-container'>
-        <view class='confirm-btn' bindtap='confirm'>去结算</view>
+        <view class='confirm-btn' bindtap='actionSheetTap'>去结算</view>
       </view>
     </view>
   </scroll-view>

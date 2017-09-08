@@ -44,7 +44,7 @@ page {
 }
 
 .order-name {
-  width: 650rpx;
+  width: 620rpx;
   padding-left: 15px;
   float: left;
   padding-top: 5px;
@@ -55,6 +55,7 @@ page {
   padding-left: 10px;
   float: right;
   padding-top: 5px;
+  padding-right: 10px;
 }
 
 .shop-name {
@@ -93,15 +94,15 @@ page {
 }
 
 .order .total .order-name {
-  width: 60rpx;
+  width: 90rpx;
   padding-left: 15px;
   padding-top: 5rpx;
   padding-bottom: 5rpx;
 }
 
 .order .total .order-total {
-  margin-right: 5rpx;
-  padding-left: 10rpx;
+  margin-right: 10rpx;
+  padding-left: 5rpx;
   padding-top: 5rpx;
 }
 
@@ -116,7 +117,7 @@ page {
   clear: both;
   text-align: center;
   border-radius: 8%;
-  line-height: 36px;
+  line-height: 66rpx;
 }
 
 .img-container {

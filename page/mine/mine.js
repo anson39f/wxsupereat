@@ -48,7 +48,20 @@ Page({
       })
     }
   },
+  help: function () {
+    wx.showModal({
+      title: '提示',
+      content: '此功能待完善',
+      showCancel:false,
+      success: function (res) {
+        if (res.confirm) {
+          
+        } else if (res.cancel) {
 
+        }
+      }
+    })
+  },
   address: function () {
     if (app.globalData.hasLogin) {
       wx.navigateTo({

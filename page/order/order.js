@@ -19,6 +19,7 @@ Page({
       count: 0,
       total: 0
     },
+    gatwayList: [18, 21],
     items: [
       {
         "product_id": 3674,
@@ -138,6 +139,7 @@ Page({
     payment_array.outlet_id = shopId;
     payment_array.sub_total = res.total;
     payment_array.outlet_name = cartList[0].shopName;
+    payment_array.vendor_key = cartList[0].shopName
     payment_array.service_tax = taxcount;
     payment_array.tax_label_name = tax_label_name;
     payment_array.tax_percentage = tax_percentage;
@@ -318,6 +320,27 @@ Page({
       console.log("------------超时-------------");
     })
   },
+
+
+  actionSheetTap: function () {
+    var self = this;
+    var payment_array = this.data.payment_array;
+    wx.showActionSheet({
+      itemList: ['cash', 'debit'],
+      success: function (e) {
+        console.log(e.tapIndex);
+        console.log('支付方式' + self.data.gatwayList[e.tapIndex]);
+        payment_array.payment_gateway_id = self.data.gatwayList[e.tapIndex];
+        self.setData({
+          payment_array: payment_array
+        })
+        if (e.tapIndex != undefined){
+          self.confirm();
+        }
+      }
+    })
+  },
+
   confirm: function () {
     var self = this;
     var pay = this.data.payment_array;
@@ -342,7 +365,9 @@ Page({
           success: function (res) {
             if (res.confirm) {
               wx.removeStorageSync(self.data.orderList[0].shopId);
-              wx.navigateBack();
+              wx.switchTab({
+                url: '../index/index'
+              })
             }
           }
         })
