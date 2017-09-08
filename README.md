@@ -1,14 +1,6 @@
 # a takeaway demo of wxapp
 微信小程序demo
 
-private static final String BaseUrl = "http://food.oddappz.com/api/";
-    private static final String NbtBaseUrl = "http://food.oddappz.com/api/";
-    private static final String PayPalTokenUrl = "http://api.sandbox.paypal.com/v1/oauth2/";
-    public static final String aboutUS_Url = "http://food.oddappz.com/mob-cms/about-us";
-    private static DDProgressBarDialog ddProgressBarDialog = null;
-    public static final String helpandSuppord_Url = "http://food.oddappz.com/mob-cms/faq";
-    public static final String privacy_policy_Url = "http://food.oddappz.com/mob-cms/privacy-policy";
-    public static final String term_condi_Url = "http://food.oddappz.com/mob-cms/terms-conditions";
 
 public interface APIService
 {
@@ -333,3 +325,6 @@ user_id=2&language=1&token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjIwMDAw
 
 登录下单：
 token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjIwMDAwMDAwMDAwMCwic3ViIjoyLCJpc3MiOiJodHRwOlwvXC9mb29kLm9kZGFwcHouY29tXC9hcGlcL2xvZ2luX3VzZXIiLCJpYXQiOjE1MDQ2NTkzMTksIm5iZiI6MTUwNDY1OTMxOSwianRpIjoiVVFRTGQ2OW9LeG12WGFnZCJ9.uLxu6Pt87J7dRKA_BE2sLHvSkaLrGGFrgcNs6hVcbz4&user_id=2&language=1&payment_array={"user_id":"2","store_id":"182","outlet_id":"73","vendor_key":"Spice","total":"238","sub_total":"238","contact_address":"LG-34, Sampige Rd, Malleshwaram West, Bengaluru, Karnataka 560003, India","contact_email":"Spice@mailinator.com","outlet_name":"Spice","service_tax":"0.0","tax_label_name":"","tax_percentage":"0","order_status":"1","order_key":"","transaction_staus":"1","transaction_amount":"238","currency_code":"₹","payment_gateway_id":"25","delivery_charge":"0","payment_status":"0","admin_commission":"11","vendor_commission":"227","payment_gateway_commission":"5","delivery_instructions":"","delivery_address":"114","delivery_slot":"0","delivery_cost":"0","delivery_date":"2017-09-06","order_type":"1","coupon_type":"0","coupon_id":"0","coupon_amount":"0","items":[{"product_id":338,"quantity":4,"discount_price":20,"ingredients":{"0":{"ingredient_id":69,"price":"0"},"1":{"ingredient_id":40,"price":"2"},"2":{"ingredient_id":21,"price":"2"},"3":{"ingredient_id":66,"price":"1"},"ingredient_name":"without Sugar,Large Coleslaw,Ground Beef,BlueBerry"},"item_offer":"0"},{"product_id":338,"quantity":6,"discount_price":20,"ingredients":{"0":{"ingredient_id":69,"price":"0"},"1":{"ingredient_id":66,"price":"1"},"2":{"ingredient_id":21,"price":"2"},"ingredient_name":"without Sugar,BlueBerry,Ground Beef"},"item_offer":"0"}]}
+
+游客下单
+offline-data: {"admin_commission":6.75,"vendor_commission":13.48,"store_id":"232","outlet_id":"224","outlet_name":"Presotea","vendor_key":"Presotea","total":20.23,"sub_total":13.48,"service_tax":1.75,"tax_label_name":"HST ","tax_percentage":"13","contact_address":"228 Albert St, Waterloo, ON N2L 3T6, Canada","contact_email":"dfvg@163.com","order_status":1,"transaction_staus":1,"transaction_amount":20.23,"currency_code":"$","payment_gateway_id":18,"delivery_charge":0,"payment_status":0,"payment_gateway_commission":0,"delivery_instructions":"","delivery_date":"NOW()","order_type":"1","coupon_id":0,"coupon_amount":0,"coupon_type":0,"delivery_cost":"5","items":[{"product_id":"987","quantity":"1","discount_price":"4.99","special_req":"","ingredients":{"0":{"ingredient_id":"60","price":"0"},"1":{"ingredient_id":"47","price":"0.75"},"2":{"ingredient_id":"42","price":"0.75"},"3":{"ingredient_id":"63","price":"1"},"4":{"ingredient_id":"49","price":"0"},"ingredient_names":"Full Sugar, Basil Seed, Grass Jelly, Large, No Ice"},"item_offer":0},{"product_id":"936","quantity":"1","discount_price":"4.99","special_req":"","ingredients":{"0":{"ingredient_id":"60","price":"0"},"1":{"ingredient_id":"63","price":"1"},"2":{"ingredient_id":"52","price":"0"},"ingredient_names":"Full Sugar, Large, Full Ice"},"item_offer":0}]}

@@ -92,20 +92,20 @@ Page({
         })
         console.log("------------失败-------------");
       }
-      }, function (res) {
-        wx.showModal({
-          title: '提示',
-          content: '网络好像有点问题，请重新打开！',
-          showCancel: false,
-          confirmText: '确定',
-          success: function (res) {
-            if (res.confirm) {
-              self.getShopDetail(id)
-            }
+    }, function (res) {
+      wx.showModal({
+        title: '提示',
+        content: '网络好像有点问题，请重新打开！',
+        showCancel: false,
+        confirmText: '确定',
+        success: function (res) {
+          if (res.confirm) {
+            self.getShopDetail(id)
           }
-        })
-        console.log("------------超时-------------");
+        }
       })
+      console.log("------------超时-------------");
+    })
   },
 
   getShopMenu: function (id) {
@@ -444,7 +444,11 @@ Page({
     var productItem = this.data.productItem;
     productItem.ingredients = item;
     productItem.pay = sumPrice + productItem.price;
-    productItem.name = productItem.name + '(' + nameString + ')';
+    if (nameString != '') {
+      productItem.name = productItem.name + '(' + nameString + ')';
+    } else {
+      productItem.name = productItem.name + '(single)';      
+    }
     console.log('productItem对象：');
     console.log(productItem);
     var cartList = this.data.cartList;
