@@ -139,6 +139,7 @@ Page({
       item.discount_price = cartList[index].price;
       item.ingredients = cartList[index].ingredients;
       item.item_offer = 0;
+      item.special_req = '';
       payment_array.items.push(item);
     };
 
@@ -282,6 +283,19 @@ Page({
         })
         console.log("------------失败-------------");
       }
+    }, function (res) {
+      wx.showModal({
+        title: '提示',
+        content: '网络好像有点问题，请重新请求！',
+        showCancel: false,
+        confirmText: '确定',
+        success: function (res) {
+          if (res.confirm) {
+            self.getDistance(option)
+          }
+        }
+      })
+      console.log("------------超时-------------");
     })
   },
 
@@ -319,7 +333,7 @@ Page({
     //   success: function () {
     //   }
     // })
-   
+
     wx.showLoading({
       title: '正在为您提交订单',
     });
@@ -346,6 +360,7 @@ Page({
       console.log(res);
       var response = res.data.response;
       if (response.httpCode == 200) {
+        wx.hideLoading();
         wx.showModal({
           showCancel: false,
           title: '恭喜',
@@ -374,6 +389,7 @@ Page({
         // });
       } else {
         console.log('下单失败');
+        wx.hideLoading();
         wx.showModal({
           showCancel: false,
           title: '提交订单失败',
@@ -385,6 +401,20 @@ Page({
           }
         })
       }
+    }, function (res) {
+      wx.hideLoading();
+      wx.showModal({
+        title: '提示',
+        content: '网络好像有点问题，请重新提交订单！',
+        showCancel: false,
+        confirmText: '确定',
+        success: function (res) {
+          if (res.confirm) {
+            self.confirm()
+          }
+        }
+      })
+      console.log("------------超时-------------");
     })
 
   }

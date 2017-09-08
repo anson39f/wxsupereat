@@ -7,6 +7,7 @@ function __args() {
     if (typeof arguments[1] === 'object') {
       setting.data = arguments[1];
       setting.success = arguments[2];
+      setting.fail = arguments[3];
     } else {
       setting.success = arguments[1];
     }

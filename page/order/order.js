@@ -172,12 +172,12 @@ Page({
     });
 
   },
-  onShow: function () {    
+  onShow: function () {
     wx.showLoading({
       title: '加载中',
     })
     var option = this.data.option;
-    this.getAddress(option);        
+    this.getAddress(option);
   },
 
   bindPickerChange: function (e) {
@@ -185,7 +185,7 @@ Page({
       index: e.detail.value
     })
     var list = this.data.addressList;
-    console.log('选择了地址' +e.detail.value + ' : '+ list[e.detail.value].address);
+    console.log('选择了地址' + e.detail.value + ' : ' + list[e.detail.value].address);
     var option = this.data.option;
     this.getDistance(option);
   },
@@ -255,6 +255,19 @@ Page({
         })
         console.log("------------失败 距离-------------");
       }
+    }, function (res) {
+      wx.showModal({
+        title: '提示',
+        content: '网络好像有点问题，请重新请求！',
+        showCancel: false,
+        confirmText: '确定',
+        success: function (res) {
+          if (res.confirm) {
+            self.getDistance(option)
+          }
+        }
+      })
+      console.log("------------超时-------------");
     })
   },
 
@@ -275,7 +288,7 @@ Page({
       if (response.httpCode == 200) {
         var list = response.address_list;
         for (var index in list) {
-          var string = list[index].city_name + ' ' +  list[index].address;
+          var string = list[index].city_name + ' ' + list[index].address;
           address.push(string);
         }
         console.log(address);
@@ -284,74 +297,86 @@ Page({
           addressList: list
         })
         self.getDistance(option);
-        
+
         console.log("------------获取地址成功-------------");
       } else {
         wx.hideLoading()
         console.log("------------获取地址失败-------------");
       }
+    }, function (res) {
+      wx.showModal({
+        title: '提示',
+        content: '网络好像有点问题，请重新请求！',
+        showCancel: false,
+        confirmText: '确定',
+        success: function (res) {
+          if (res.confirm) {
+            self.getAddress(option)
+          }
+        }
+      })
+      console.log("------------超时-------------");
     })
   },
-  confirm: function () {    
+  confirm: function () {
     var self = this;
     var pay = this.data.payment_array;
 
-    wx.showToast({
+    wx.showLoading({
       title: '正在为您提交订单',
-      icon: 'loading',
-      mask: true,
-      success: function () {
-        server.postJSON('https://supereat.ca/api/offline_payment', {
-          language: app.globalData.language,
-          user_id: app.globalData.user_id,
-          token: app.globalData.token,
-          payment_array: JSON.stringify(pay)
-        }, function (res) {
-          console.log(res);
-          var response = res.data.response;
-          if (response.httpCode == 200) {
-            wx.showModal({
-              showCancel: false,
-              title: '恭喜',
-              content: '订单发送成功！下订单过程顺利完成。',
-              success: function (res) {
-                if (res.confirm) {
-                  wx.removeStorageSync(self.data.orderList[0].shopId);
-                  wx.navigateBack();
-                }
-              }
-            })
-            // for(var index in cartList){
-            // 	if(typeof cartList[index] !== null){
-            // 		for(var key in cartList[index]){
-            // 			cartList[index]['pay'] = 1;
-            // 		}
-            // 	}								
-            // }
-            // wx.setStorage({
-            // 	key: 'orderList',
-            // 	data: {
-            // 		cartList: cartList,
-            // 		count: res.count,
-            // 		total: res.total,
-            // 	}
-            // });
-          } else {
-            console.log('下单失败');
-            wx.showModal({
-              showCancel: false,
-              title: '提交订单失败',
-              content: '请在重新授权后提交订单',
-              success: function (res) {
-                if (res.confirm) {
-                  app.getUserInfo();
-                }
-              }
-            })
+    });
+    server.postJSON('https://supereat.ca/api/offline_payment', {
+      language: app.globalData.language,
+      user_id: app.globalData.user_id,
+      token: app.globalData.token,
+      payment_array: JSON.stringify(pay)
+    }, function (res) {
+      console.log(res);
+      var response = res.data.response;
+      if (response.httpCode == 200) {
+        wx.hideLoading();
+        wx.showModal({
+          showCancel: false,
+          title: '恭喜',
+          content: '订单发送成功！下订单过程顺利完成。',
+          success: function (res) {
+            if (res.confirm) {
+              wx.removeStorageSync(self.data.orderList[0].shopId);
+              wx.navigateBack();
+            }
+          }
+        })
+
+      } else {
+        console.log('下单失败');
+        wx.hideLoading();
+        wx.showModal({
+          showCancel: false,
+          title: '提交订单失败',
+          content: '请在重新授权后提交订单',
+          success: function (res) {
+            if (res.confirm) {
+              app.getUserInfo();
+            }
           }
         })
       }
+    }, function (res) {
+      wx.hideLoading();
+      wx.showModal({
+        title: '提示',
+        content: '网络好像有点问题，请重新提交订单！',
+        showCancel: false,
+        confirmText: '确定',
+        success: function (res) {
+          if (res.confirm) {
+            self.confirm()
+          }
+        }
+      })
+      console.log("------------超时-------------");
     })
+
   }
 });
 

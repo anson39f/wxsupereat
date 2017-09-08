@@ -92,7 +92,20 @@ Page({
         })
         console.log("------------失败-------------");
       }
-    })
+      }, function (res) {
+        wx.showModal({
+          title: '提示',
+          content: '网络好像有点问题，请重新打开！',
+          showCancel: false,
+          confirmText: '确定',
+          success: function (res) {
+            if (res.confirm) {
+              self.getShopDetail(id)
+            }
+          }
+        })
+        console.log("------------超时-------------");
+      })
   },
 
   getShopMenu: function (id) {
@@ -127,6 +140,19 @@ Page({
         });
         console.log("------------失败-------------");
       }
+    }, function (res) {
+      wx.showModal({
+        title: '提示',
+        content: '网络好像有点问题，请重新打开！',
+        showCancel: false,
+        confirmText: '确定',
+        success: function (res) {
+          if (res.confirm) {
+            self.getShopMenu(id)
+          }
+        }
+      })
+      console.log("------------超时-------------");
     })
   },
 
@@ -412,6 +438,7 @@ Page({
     }
     nameString = nameString.substring(0, nameString.length - 1);
     item.ingredient_name = nameString;
+    item.ingredient_names = nameString;//游客下单
     console.log('ingredients对象：');
     console.log(item);
     var productItem = this.data.productItem;

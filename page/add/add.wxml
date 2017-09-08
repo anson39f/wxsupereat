@@ -51,7 +51,7 @@
     <view class="payli0">
       <view class="paylable0">Address</view>
       <view>
-        <textarea class="textarea" name="address" placeholder="Ex: 203 Lester St, Toronto ON"  bindfocus="focusInputEvent" value="{{address}}"></textarea>
+        <textarea class="textarea" name="address" placeholder="Ex: 203 Lester St, Toronto ON"  bindfocus="focusInputEvent" value="{{address}}" bindblur="blurInputEvent"></textarea>
       </view>
       <view class="clear"></view>
     </view>

@@ -42,40 +42,16 @@ Page({
 
   },
   onLoad: function () {
-    var self = this;     
+    var self = this;
     wx.showLoading({
       title: '加载中',
     });
-    
+
     this.setData({
       language: app.globalData.language,
     });
-    //获取城市
-    server.postJSON('https://supereat.ca/api/city-list', {
-      country_id: 65,
-      language: app.globalData.language,
-    }, function (res) {
-      console.log(res);
-      var response = res.data.response;
-      if (response.httpCode == 200) {
-        var addressString = [];
-        for (var index in response.city_list) {
-          addressString.push(response.city_list[index].city_name);
-        }
-        self.setData({
-          addressString: addressString,
-          city_list: response.city_list,
-          address: response.city_list[8].city_name,
-        });
-        app.globalData.city_list = response.city_list;
-        console.log("------------成功-------------");
-      } else {
-        self.setData({
-          address: '获取失败'
-        });
-        console.log("------------失败-------------");
-      }
-    })   
+
+    this.getCityList();
 
     //获取商店列表
     server.postJSON('https://supereat.ca/api/store_list', {
@@ -110,6 +86,19 @@ Page({
       } else {
         console.log("------------失败-------------");
       }
+    }, function (res) {
+      wx.showModal({
+        title: '提示',
+        content: '网络好像有点问题，请重新打开！',
+        showCancel: false,
+        confirmText: '确定',
+        success: function (res) {
+          if (res.confirm) {
+            self.getCityList();
+          }
+        }
+      })
+      console.log("------------超时-------------");
     })
     // wx.startPullDownRefresh({
     //   success:function(){
@@ -118,8 +107,47 @@ Page({
     // })
   },
 
-  onPullDownRefresh: function () {
-    this.getStoreList();
+  getCityList: function () {
+    var self = this;
+    //获取城市
+    server.postJSON('https://supereat.ca/api/city-list', {
+      country_id: 65,
+      language: app.globalData.language,
+    }, function (res) {
+      console.log(res);
+      var response = res.data.response;
+      if (response.httpCode == 200) {
+        var addressString = [];
+        for (var index in response.city_list) {
+          addressString.push(response.city_list[index].city_name);
+        }
+        self.setData({
+          addressString: addressString,
+          city_list: response.city_list,
+          address: response.city_list[8].city_name,
+        });
+        app.globalData.city_list = response.city_list;
+        console.log("------------成功-------------");
+      } else {
+        self.setData({
+          address: '获取失败'
+        });
+        console.log("------------失败-------------");
+      }
+    }, function (res) {
+      wx.showModal({
+        title: '提示',
+        content: '网络好像有点问题，请重新打开！',
+        showCancel: false,
+        confirmText: '确定',
+        success: function (res) {
+          if (res.confirm) {
+            self.getCityList()
+          }
+        }
+      })
+      console.log("------------超时-------------");
+    })
   },
 
   getStoreList: function () {
@@ -161,6 +189,19 @@ Page({
       } else {
         console.log("------------失败-------------");
       }
+    }, function (res) {
+      wx.showModal({
+        title: '提示',
+        content: '网络好像有点问题，请重新打开！',
+        showCancel: false,
+        confirmText: '确定',
+        success: function (res) {
+          if (res.confirm) {
+            self.getStoreList()
+          }
+        }
+      })
+      console.log("------------超时-------------");
     })
   },
 
