@@ -292,11 +292,11 @@ Page({
   },
   tapBanner: function (e) {
     var name = this.data.banners[e.target.dataset.id].banner_link;
-    wx.showModal({
-      title: '提示',
-      content: '您点击了“' + name + '”活动链接，活动页面暂未完成！',
-      showCancel: false
-    });
+    // wx.showModal({
+    //   title: '提示',
+    //   content: '您点击了“' + name + '”活动链接，活动页面暂未完成！',
+    //   showCancel: false
+    // });
   },
   isClose: function (e) {
     var item = e.target.dataset.getItem;

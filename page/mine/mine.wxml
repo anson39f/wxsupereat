@@ -1,11 +1,11 @@
 <view class="container">
   <view class="header">
 
-    <image class="avatar" src="{{userInfo.avatarUrl}}" />
+    <image class="avatar" src="../../imgs/login/login.png" />
     <view class="nickname">{{email}}</view>
   </view>
   <view class="section">
-    <view class="line judgement" bindtap="order">我的订单</view>
+    <view class="line judgement" bindtap="order" hidden='{{true}}'>我的订单</view>
     <view class="line judgement" hidden='{{true}}'>我的好友</view>
     
     <view class="line judgement" bindtap="address">我的地址</view>
@@ -18,7 +18,7 @@
     </picker>
   </view>
 
-  <view class="section">
+  <view class="section" hidden='{{true}}'>
     <view class="line judgement" bindtap="help">帮助与反馈</view>
   </view>
 

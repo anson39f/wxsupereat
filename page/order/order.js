@@ -114,24 +114,6 @@ Page({
 
     var res = wx.getStorageSync(shopId);
     var cartList = res.cartList;
-    // for (var index in cartList) {
-    //   if (pay == 0) var is_empty = false;
-    //   if (!common.isEmptyObject(cartList[index])) {
-
-    //     var total = 0;
-    //     if (pay == 0) is_empty = true;
-    //     total += cartList[index].num * cartList[index].price;
-    //     var orderDetail = {
-    //       name: cartList[index].shopName,
-    //       shopId: cartList[index].shopId,
-    //       order: cartList[index],
-    //       total: total,
-    //       pay: cartList[index].pay,
-    //     }
-    //     cartList.push(orderDetail);
-    //   }
-    // }
-
     var taxcount = res.count * tax_percentage * 0.01;
 
     var payment_array = self.data.payment_array;
@@ -143,6 +125,7 @@ Page({
     payment_array.service_tax = taxcount;
     payment_array.tax_label_name = tax_label_name;
     payment_array.tax_percentage = tax_percentage;
+    payment_array.delivery_date = server.initDate();
 
     payment_array.items = [];
     for (var index in cartList) {
@@ -224,13 +207,28 @@ Page({
         var basedistance = option.basedistance;
         var baserate = option.baserate;
         var delivery_cost_fixed = option.delivery_cost_fixed;
+        var minimum_free_amount = option.minimum_free_amount
         var transportation;
-        if (basedistance < distance) {
-          var distance_fee = (distance - basedistance) / 5;
-          transportation = distance_fee * baserate + delivery_cost_fixed;
+
+        var cityIndex = app.globalData.cityIndex;
+        var cityList = app.globalData.city_list;
+        var cityId = cityList[cityIndex].id;
+        if (minimum_free_amount < self.data.payment_array.sub_total) {
+          transportation = 0;
         } else {
-          transportation = delivery_cost_fixed;
+          if (basedistance < distance) {
+            var distance_fee;
+            if (cityId == 71) {//ottawa
+              distance_fee = (distance - basedistance) / 5;
+            } else {
+              distance_fee = (distance - basedistance);
+            }
+            transportation = distance_fee * baserate + delivery_cost_fixed;
+          } else {
+            transportation = delivery_cost_fixed;
+          }
         }
+
         transportation = server.toDecimal(transportation);
         var total = self.data.cart.total + transportation + self.data.tax;
         var payment_array = self.data.payment_array;
@@ -334,7 +332,7 @@ Page({
         self.setData({
           payment_array: payment_array
         })
-        if (e.tapIndex != undefined){
+        if (e.tapIndex != undefined) {
           self.confirm();
         }
       }

@@ -72,7 +72,7 @@
     </view>
     <form bindsubmit="submit" report-submit="true">
       <!--<view formType="submit" class="submit">去结算</view>-->
-      <button class="yellow {{cart.count?'':'disabled'}}" formType="submit" disabled="{{!cart.count}}">去结算</button>
+      <button class="yellow {{cart.total > shop.minimum_order_amount ?'':'disabled'}}" formType="submit" disabled="{{!cart.count}}">{{cart.total > shop.minimum_order_amount ?'去结算':shop.minimum_order_amount +'元起送'}}</button>
     </form>
   </view>
 </view>

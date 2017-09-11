@@ -24,6 +24,33 @@ function __json(method, setting) {
   };
   wx.request(setting);
 }
+//初始化时间重写方法
+function initDate(){
+  Date.prototype.format = function (format) {
+    var date = {
+      "M+": this.getMonth() + 1,
+      "d+": this.getDate(),
+      "h+": this.getHours(),
+      "m+": this.getMinutes(),
+      "s+": this.getSeconds(),
+      "q+": Math.floor((this.getMonth() + 3) / 3),
+      "S+": this.getMilliseconds()
+    };
+    if (/(y+)/i.test(format)) {
+      format = format.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
+    }
+    for (var k in date) {
+      if (new RegExp("(" + k + ")").test(format)) {
+        format = format.replace(RegExp.$1, RegExp.$1.length == 1
+          ? date[k] : ("00" + date[k]).substr(("" + date[k]).length));
+      }
+    }
+    return format;
+  }
+  var newDate = new Date();
+  console.log('当前日期：' + newDate.format('yyyy-MM-dd'));
+  return newDate.format('yyyy-MM-dd');
+}
 
 function formatTime(date) {
   const year = date.getFullYear()
@@ -136,5 +163,6 @@ module.exports = {
   selectedShopDetail: selectedShopDetail,
   filterEmptyObject: filterEmptyObject,
   toDecimal: toDecimal,
-  getLocation: getLocation
+  getLocation: getLocation,
+  initDate:initDate,
 }

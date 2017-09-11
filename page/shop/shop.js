@@ -7,6 +7,9 @@ Page({
       total: 0
     },
     url: app.globalData.url,
+    shop:{
+      minimum_order_amount:5
+    },
     cartList: [],
     localList: [],
     showCartDetail: false,
@@ -484,6 +487,16 @@ Page({
       });
       return;
     }
+
+    if (this.data.shop.minimum_order_amount >= this.data.cart.total) {
+      wx.showModal({
+        title: '提示',
+        content: this.data.shop.minimum_order_amount + '元起送',
+        showCancel: false
+      });
+      return;
+    }
+
     var shop = this.data.shop;
     var total = this.data.cart.total;
     var shopId = this.data.shopId;
@@ -507,7 +520,7 @@ Page({
               + '&delivery_cost_fixed=' + shop.delivery_cost_fixed
               + '&baserate=' + shop.baserate + '&basedistance=' + shop.basedistance
               + '&contact_address=' + shop.contact_address + '&vendors_id=' + shop.vendors_id
-              + '&contact_email=' + shop.contact_email
+              + '&contact_email=' + shop.contact_email + '&minimum_free_amount=' + shop.minimum_free_amount
             })
           }
         }
@@ -521,7 +534,7 @@ Page({
       + '&delivery_cost_fixed=' + shop.delivery_cost_fixed
       + '&baserate=' + shop.baserate + '&basedistance=' + shop.basedistance
       + '&contact_address=' + shop.contact_address + '&vendors_id=' + shop.vendors_id
-      + '&contact_email=' + shop.contact_email
+      + '&contact_email=' + shop.contact_email + '&minimum_free_amount=' + shop.minimum_free_amount
     })
   },
 
