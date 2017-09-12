@@ -66,10 +66,13 @@ Page({
   },
   getShopDetail: function (id) {
     var self = this;
+    var cityIndex = app.globalData.cityIndex;
+    var cityList = app.globalData.city_list;
+    var cityId = cityList[cityIndex].id;
     server.postJSON('https://supereat.ca/api/store_info_mob', {
-      city: '69',//71
+      city: cityId,//71
       outlet_id: id,
-      location: 1032,//1035
+      location: server.getLocation(cityId),//1035
       language: app.globalData.language,
       user_id: '',
       category_id: '',
@@ -113,8 +116,11 @@ Page({
 
   getShopMenu: function (id) {
     var self = this;
+    var cityIndex = app.globalData.cityIndex;
+    var cityList = app.globalData.city_list;
+    var cityId = cityList[cityIndex].id;
     server.postJSON('https://supereat.ca/api/store_product_mob', {
-      location: 1032,//1035
+      location: server.getLocation(cityId),//1035
       language: app.globalData.language,
       user_id: '',
       category_id: id,
