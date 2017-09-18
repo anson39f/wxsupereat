@@ -68,6 +68,9 @@ Page({
         duration: 2000
       })
     } else {
+      wx.showLoading({
+        title: '请稍后...',
+      })
       server.postJSON('https://supereat.ca/api/signup_user', {
         first_name: firstname,
         last_name: lastname,
@@ -86,24 +89,30 @@ Page({
         console.log(res);
         var response = res.data.response;
         if (response.httpCode == 200) {
-          app.globalData.token = response.token;
-          app.globalData.user_id = response.user_id;
+          // app.globalData.token = response.token;
+          // app.globalData.user_id = response.user_id;
           self.setData({
-            token:response.token,
-            user_id:response.user_id,
+            token: response.token,
+            user_id: response.user_id,
             hiddenmodalput: false
           });
-          // 这里修改成跳转的页面 
-          // wx.showToast({
-          //   title: '注册成功',
-          //   icon: 'success',
-          //   duration: 2000
-          // })
+          wx.hideLoading();
           console.log("------------成功-------------");
+        } else if (response.httpCode == 400) {
+          wx.showToast({
+            title: response.Message,
+          })
         } else {
-
+          wx.showToast({
+            title: '注册失败',
+          })
           console.log("------------失败-------------");
         }
+      }, function (res) {
+        wx.showToast({
+          title: '网络好像有点问题,请重新请求',
+        })
+        console.log("------------超时-------------");
       })
     }
   },
@@ -135,20 +144,39 @@ Page({
           duration: 2000
         })
         console.log("------------成功-------------");
-      } else {
-
+      } else if (response.httpCode == 400) {
+        wx.showToast({
+          title: response.Message,
+        })
         console.log("------------失败-------------");
+      } else {
+        wx.showToast({
+          title: '发送失败',
+        })
       }
+    }, function (res) {
+      wx.showToast({
+        title: '发送失败，请重新发送',
+      })
+      console.log("------------超时-------------");
     })
   },
   //确认 验证码
   confirm: function () {
-    var self = this;    
+    var self = this;
     var code = this.data.code;
     var phone = this.data.phone;
     var password = this.data.password;
     var user_id = this.data.user_id;
-    
+    if (code == '') {
+      wx.showToast({
+        title: 'The otp is required',
+      })
+      return;
+    }
+    wx.showLoading({
+      title: '请稍后',
+    })
     server.postJSON('https://supereat.ca/api/verify-otp-new-mobile', {
       language: "2",
       phone: phone,
@@ -171,10 +199,17 @@ Page({
           duration: 2000
         })
         console.log("------------成功-------------");
-      } else {
-
+      } else if (response.httpCode == 400) {
+        wx.showToast({
+          title: response.Message,
+        });
         console.log("------------失败-------------");
       }
+    }, function (res) {
+      wx.showToast({
+        title: '网络好像有点问题，请重新请求',
+      })
+      console.log("------------超时-------------");
     })
   },
 
