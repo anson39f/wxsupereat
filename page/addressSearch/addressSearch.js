@@ -25,18 +25,10 @@ Page({
     var self = this;
     //获取地址
     server.postJSON('https://supereat.ca/api/autofind_location', {
-      AddrString: this.data.searchWords,
-      Key: 'IIIc0Co9lU0fnOczgSL52HOqoLFQGC'
+      AddrString: this.data.searchWords
     }, function (res) {
       console.log(res);
-      console.log(res.data.response);
       var response = res.data.response;
-      if (response == undefined) {
-        wx.showToast({
-          title: '查询失败',
-        })
-        return;
-      }
       if (response.httpCode == 200) {
         var predictionsList = response.List.predictions;
         wx.hideLoading();
@@ -46,17 +38,15 @@ Page({
         });
         console.log("------------成功-------------" + predictionsList[0].description);
       } else {
+        wx.showToast({
+          title: '搜索失败',
+        })
         console.log("------------失败-------------");
       }
-    }, function (res) {
-      wx.showToast({
-        title: '查询失败',
-      })
-      console.log("------------超时-------------");
     })
-
+    
   },
-  select: function (e) {
+  select:function(e){
     console.log(e);
     var address = e.currentTarget.dataset.address;
     var pages = getCurrentPages();
@@ -69,7 +59,7 @@ Page({
     })
 
     wx.navigateBack();
-
+  
   }
 
 });

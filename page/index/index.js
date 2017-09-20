@@ -87,6 +87,7 @@ Page({
         console.log("------------失败-------------");
       }
     }, function (res) {
+      wx.hideLoading();
       wx.showModal({
         title: '提示',
         content: '网络好像有点问题，请重新打开！',
@@ -94,7 +95,7 @@ Page({
         confirmText: '确定',
         success: function (res) {
           if (res.confirm) {
-            self.getCityList();
+            self.onLoad();
           }
         }
       })

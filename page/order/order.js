@@ -202,6 +202,12 @@ Page({
       //basefee =(order_amount >= minimum-free_amount) ? 0 : basefee;
       // finalfee = basefee + (distance / basekmunit) * baserate;
       var response = res.data.response;
+      if (res.data.status_code == 500) {
+        wx.showToast({
+          title: '地址无效',
+        })
+        return;
+      }
       if (response.httpCode == 200) {
         var distance = response.distance;
         var basedistance = option.basedistance;
@@ -340,6 +346,69 @@ Page({
   },
 
   confirm: function () {
+    var self = this;
+    var cityIndex = app.globalData.cityIndex;
+    var cityList = app.globalData.city_list;
+    var cityId = cityList[cityIndex].id;
+
+    var total = self.data.total;
+    if (total == 0) {
+      wx.showToast({
+        title: '无效地址',
+      })
+      return;
+    };
+    wx.showLoading({
+      title: '正在为您提交订单',
+    })
+    server.postJSON('https://supereat.ca/api/store_info_mob', {
+      city: cityId,//71
+      outlet_id: self.data.option.shopId,
+      location: server.getLocation(cityId),//1035
+      language: app.globalData.language,
+      user_id: '',
+      category_id: '',
+      user_id: '',
+      token: ''
+    }, function (res) {
+      console.log(res);
+      var response = res.data.response;
+      if (response.httpCode == 200) {
+        if (response.outlet_detail.open_restaurant == 1) {
+          self.confirmPay();
+        } else {
+          wx.hideLoading();
+          wx.showModal({
+            title: '提示',
+            content: '该商店已打烊！',
+            showCancel: false
+          });
+          return;
+        }
+
+      } else {
+        wx.showLoading({
+          title: '提交失败',
+        })
+        console.log("------------失败-------------");
+      }
+    }, function (res) {
+      wx.showModal({
+        title: '提示',
+        content: '网络好像有点问题，请重新提交！',
+        showCancel: false,
+        confirmText: '确定',
+        success: function (res) {
+          if (res.confirm) {
+            self.confirm();
+          }
+        }
+      })
+      console.log("------------超时-------------");
+    })
+
+  },
+  confirmPay: function () {
     var self = this;
     var pay = this.data.payment_array;
 
